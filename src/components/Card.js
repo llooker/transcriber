@@ -33,12 +33,27 @@ const Row = styled.div`
 `;
 
 function Card({ card }) {
+  let LookMLWords = /\b(access_filter|sql_always_where|required_access_grants|no-report-backend-errors|datagroup_trigger|\._in_query|system__activity|i__looker|_dialect\._name|\$\{TABLE\}\.column|persist_for|label|view_label|group_label|description|value_format|named_value_format|sql_trigger_value)/gi
+  let styledLookMLWords = '<span class="lookml">$1</span>';
+
+  let ports = /\b(1551|61616|22|443|587|9000|19999|9999)/gi
+  let styledPorts = '<span class="port">$1</span>'
+
+  let specialWords = /\b(mysql_secure_installation|utf8mb4_general_ci|utf8mb4)/gi
+  let styledSpecialWords = '<span class="special">$1</span>'
+
   return (
     <Div>
       <Container>
         <Title>{card.title}</Title>
         {card.rows.map((name, index) => (
-          <Row key={index}>{name.text}</Row>
+          <Row key={index} dangerouslySetInnerHTML={{__html: name.text
+            .replace(LookMLWords, styledLookMLWords)
+            .replace(ports, styledPorts)
+            .replace(specialWords, styledSpecialWords)
+          }}>
+          
+          </Row>
         ))}
       </Container>
     </Div>
