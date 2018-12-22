@@ -12,8 +12,6 @@ const CardList = ({ data: { loading, error, cards } }) => {
     return <p>{error.message}</p>;
   }
 
-  console.log(cards);
-//      <Card card={cards} />
   return (
     <div>
         {cards.map((name, index) => (
