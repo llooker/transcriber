@@ -1,6 +1,6 @@
 {
   "name": "guru-graphql-client",
-  "homepage": "https://s3-bucketname-serverless-graphql.s3-website-us-east-1.amazonaws.com",
+  "homepage": "https://epic-tereshkova-d00e6c.netlify.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
