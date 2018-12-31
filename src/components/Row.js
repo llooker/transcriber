@@ -25,12 +25,18 @@ const RedText = styled.div`
   line-height: 20px;
 `;
 
+const Notes = styled.div`
+  border-bottom: 1px solid #e6ecf0;
+  padding: 15px 15px;
+`
+
 class Row extends React.Component {
 
     constructor({name}) {
       super();
       this.name = name;
       this.handleClick = this.handleClick.bind(this);
+      this.handleChange = this.handleChange.bind(this);
       this.state = {textClicks: 0};
     }
 
@@ -43,7 +49,11 @@ class Row extends React.Component {
                 textClicks: 0
             }));
         }
-}
+    }
+
+    handleChange(e) {
+        this.setState({value: e.target.value});
+    }
     
     render() {
         let LookMLWords = /\b(access_filter|sql_always_where|required_access_grants|no-report-backend-errors|datagroup_trigger|\._in_query|system__activity|i__looker|_dialect\._name|\$\{TABLE\}\.column|persist_for|label|view_label|group_label|description|value_format|named_value_format|sql_trigger_value)/gi
@@ -56,10 +66,12 @@ class Row extends React.Component {
         let styledSpecialWords = '<span class="special">$1</span>'
     
         const textClicks = this.state.textClicks;
-        let text = this.name.text
-        .replace(LookMLWords, styledLookMLWords)
-        .replace(ports, styledPorts)
-        .replace(specialWords, styledSpecialWords);
+        let text = <span dangerouslySetInnerHTML={{__html: this.name.text
+            .replace(LookMLWords, styledLookMLWords)
+            .replace(ports, styledPorts)
+            .replace(specialWords, styledSpecialWords)}}></span>
+
+        let notes = <Notes><textarea onChange={this.handleChange} value={this.state.value} cols="90" rows="3"/></Notes>
         
         if (textClicks===0) {
             return (
@@ -69,15 +81,21 @@ class Row extends React.Component {
             );
         } else if (textClicks===1) {
             return (
-                <GreenText onClick={this.handleClick} key={this.name.index}>
-                <span aria-label="yes" role="img">👍</span>{text}
-                </GreenText>
+                <div>
+                    <GreenText onClick={this.handleClick} key={this.name.index}>
+                        <span aria-label="yes" role="img">👍</span>{text}
+                    </GreenText>
+                    {notes}
+                </div>
             );    
         } else if (textClicks===2) {
             return (
-                <RedText onClick={this.handleClick} key={this.name.index}>
-                <span aria-label="no" role="img">👎</span>{text}
-                </RedText>
+                <div>
+                    <RedText onClick={this.handleClick} key={this.name.index}>
+                        <span aria-label="no" role="img">👎</span>{text}
+                    </RedText>
+                    {notes}
+                </div>
             );    
         }
     }

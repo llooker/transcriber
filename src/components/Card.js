@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import Row from './Row';
 
 const Div = styled.div`
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const Container = styled.div`
@@ -23,27 +23,69 @@ const Title = styled.div`
   padding: 15px 15px;
   font-size: 16px;
   font-weight: bold;
-  line-height: 20px;
 `;
+
+const Remove = styled.div`
+  padding: 15px 15px;
+  float: right;
+  cursor: pointer;
+  color: #ddd;
+`
 
 class Card extends React.Component {
 
   constructor({card}) {
     super();
     this.card = card;
+    this.state = {
+      isHidden: true,
+      isRemoved: false,
+    }
+    this.toggleHidden = this.toggleHidden.bind(this);
+    this.remove = this.remove.bind(this);
+  }
+
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
+  }
+
+  remove() {
+    this.setState({
+      isRemoved: true,
+      isHidden: true
+    })
   }
   
   render() {
-    return (
-      <Div>
-        <Container>
-          <Title>{this.card.title}</Title>
-          {this.card.rows.map((name, index) => (
-            <Row key={index} name={name}/>
-          ))}
-        </Container>
-      </Div>
-    );
+    if (!this.state.isHidden) {
+      return (
+        <Div>
+          <Container>
+            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {this.card.title}</Title>
+            {this.card.rows.map((name, index) => (
+              <Row key={index} name={name}/>
+            ))}
+          </Container>
+        </Div>
+      );
+    }
+    else if (!this.state.isRemoved) {
+      return (
+        <Div>
+          <Container>
+            <Remove onClick={this.remove} alt="Remove">x</Remove>
+            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {this.card.title}</Title>
+          </Container>
+        </Div>
+      );
+    }
+    else {
+      return (
+        <Div></Div>
+      )
+    }
   }
 }
 
