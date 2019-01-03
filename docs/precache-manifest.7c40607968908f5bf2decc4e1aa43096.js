@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
     "revision": "c35b2089d33eb7a6da51834b007a69a3",
-    "url": "/static/media/logo.c35b2089.svg"
+    "url": "/guru-graphql-client/static/media/logo.c35b2089.svg"
   },
   {
     "revision": "229c360febb4351a89df",
