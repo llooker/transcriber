@@ -8,23 +8,23 @@ self.__precacheManifest = [
     "url": "/guru-graphql-client/static/js/runtime~main.9bb77a17.js"
   },
   {
-    "revision": "a6ecdd419288c0ed1ae0",
-    "url": "/guru-graphql-client/static/js/main.a6ecdd41.chunk.js"
+    "revision": "bad34c78a8c38f378b51",
+    "url": "/guru-graphql-client/static/js/main.bad34c78.chunk.js"
   },
   {
-    "revision": "aa37c57a1adee0abb91b",
-    "url": "/guru-graphql-client/static/js/1.aa37c57a.chunk.js"
+    "revision": "da90e12c9a4e3f287b32",
+    "url": "/guru-graphql-client/static/js/1.da90e12c.chunk.js"
   },
   {
-    "revision": "a6ecdd419288c0ed1ae0",
+    "revision": "bad34c78a8c38f378b51",
     "url": "/guru-graphql-client/static/css/main.b44ae3cc.chunk.css"
   },
   {
-    "revision": "aa37c57a1adee0abb91b",
+    "revision": "da90e12c9a4e3f287b32",
     "url": "/guru-graphql-client/static/css/1.6100524d.chunk.css"
   },
   {
-    "revision": "8c634e8274b904e5de8d21107c57ea06",
+    "revision": "10b99667b95e64bf12391782e7535ab8",
     "url": "/guru-graphql-client/index.html"
   }
 ];
