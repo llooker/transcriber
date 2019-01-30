@@ -25,6 +25,15 @@ const RedText = styled.div`
   line-height: 20px;
 `;
 
+const NotApplicableText = styled.div`
+  border-bottom: 1px solid #e6ecf0;
+  background-color: #EEE;
+  padding: 15px 15px;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: line-through;
+`;
+
 const Notes = styled.div`
   border-bottom: 1px solid #e6ecf0;
   padding: 15px 15px;
@@ -44,7 +53,7 @@ class Row extends React.Component {
         this.setState((state, props) => ({
             textClicks: state.textClicks + 1
         }));
-        if (this.state.textClicks>=2) {
+        if (this.state.textClicks>=3) {
             this.setState((state, props) => ({
                 textClicks: 0
             }));
@@ -87,13 +96,22 @@ class Row extends React.Component {
                     </GreenText>
                     {notes}
                 </div>
-            );    
+            );
         } else if (textClicks===2) {
             return (
                 <div>
                     <RedText onClick={this.handleClick} key={this.name.index}>
                         <span aria-label="no" role="img">👎</span>{text}
                     </RedText>
+                    {notes}
+                </div>
+            );    
+        } else if (textClicks===3) {
+            return (
+                <div>
+                    <NotApplicableText onClick={this.handleClick} key={this.name.index}>
+                        {text}
+                    </NotApplicableText>
                     {notes}
                 </div>
             );    
