@@ -9,7 +9,7 @@ class CardList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {reviewType: 'model'};
+    this.state = {reviewType: 'lookml'};
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -34,8 +34,11 @@ class CardList extends React.Component {
         let includedCards = [];
 
         switch (this.state.reviewType) {
-          case 'model':
-            includedCards = ['LookML Development'];
+          case 'lookml':
+            includedCards = ['LookML Development',
+                             'LookML Project Organization',
+                             'LookML Explore Organization',
+                             'Comprehensive Project, Model & View Organization'];
           break;
           case 'architecture':
             includedCards = ['Application Servers (On-Premise)',
@@ -64,7 +67,7 @@ class CardList extends React.Component {
           <div>
             <label htmlFor="reviewType">Choose Review:</label>
             <select id="reviewType" value={this.state.reviewType} onChange={this.handleChange}>
-              <option value="model">Model</option>
+              <option value="lookml">LookML</option>
               <option value="architecture">On-Premise Architecture</option>
               <option value="dataculture">Data Culture</option>
               <option value="performance">Performance</option>
@@ -97,9 +100,9 @@ export const UserQuery = gql`
               ,"cAB66Egi" # Monitoring
               ,"ceXzzbRi" # LookML Development
               ,"TqKnnjnc" # Release Management
-#              ,"T5KnzGqc" # LookML Project Organization
-#              ,"c8e5bg7i" # LookML Explore Organization
-#              ,"iGB6RkXT" # LookML Model & View Organization
+              ,"T5KnzGqc" # LookML Project Organization
+              ,"c8e5bg7i" # LookML Explore Organization
+              ,"iGB6RkXT" # LookML Project, Model & View Organization
               ,"TXrjjBpc" # Content Management
               ,"c5KnnjRi" # User Enablement
               ]) {
