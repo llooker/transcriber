@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CardList from './components/CardList';
+import SaveButton from './components/SaveButton';
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,9 +14,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-/* fetch data from graphQL server and print on console */
-//client.query({ query: gql`{ hello }` }).then(console.log);
-
 class App extends Component {
   render() {
     return (
@@ -28,6 +26,7 @@ class App extends Component {
           <div className="App-User">
             <CardList />
           </div>
+          <SaveButton />
         </div>
       </ApolloProvider>
     );

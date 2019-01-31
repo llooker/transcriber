@@ -41,29 +41,65 @@ const Notes = styled.div`
 
 class Row extends React.Component {
 
-    constructor({name}) {
+    constructor({name,card}) {
       super();
       this.name = name;
+      this.card = card;
       this.handleClick = this.handleClick.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.state = {textClicks: 0};
     }
 
-    handleClick() {
+    handleClick(e) {
+        // update the colour of the row:
+        let newValue = this.state.textClicks + 1
         this.setState((state, props) => ({
-            textClicks: state.textClicks + 1
+            textClicks: newValue
         }));
         if (this.state.textClicks>=3) {
+            let newValue = 0;
             this.setState((state, props) => ({
-                textClicks: 0
+                textClicks: newValue
             }));
+        }
+
+        // maintain a global shadow JSON object to store the user input
+        let el = e.target;
+        if (!el.getAttribute('data-text')) {
+            el = e.target.parentElement;
+        }
+        for (var key in window.jsonForGoogleApps['cards']) {
+            if (window.jsonForGoogleApps['cards'].hasOwnProperty(key) && key === this.card) {
+                var exists = true;
+                var existingNote = "";
+                if (window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')]) {
+                    existingNote = window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')].notes
+                }
+                window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')] = {"notes": existingNote, state: newValue};
+                if (newValue > 3) {
+                    delete window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')]
+                }
+                break;
+            }
+        }
+        if (!exists) {
+            let obj = {};
+            obj[el.getAttribute('data-text')] = {"notes": "", state: newValue};
+            window.jsonForGoogleApps['cards'][this.card] = {rows: obj};
         }
     }
 
     handleChange(e) {
         this.setState({value: e.target.value});
+        let el = e.target.parentElement.previousElementSibling;
+        for (var key in window.jsonForGoogleApps['cards']) {
+            if (window.jsonForGoogleApps['cards'].hasOwnProperty(key) && key === this.card) {
+                window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')].notes = e.target.value;
+                break;
+            }
+        }
     }
-    
+
     render() {
         let LookMLWords = /\b(access_filter|sql_always_where|required_access_grants|no-report-backend-errors|datagroup_trigger|\._in_query|system__activity|i__looker|_dialect\._name|\$\{TABLE\}\.column|persist_for|label|view_label|group_label|description|value_format|named_value_format|sql_trigger_value)/gi
         let styledLookMLWords = '<span class="lookml">$1</span>';
@@ -84,14 +120,14 @@ class Row extends React.Component {
         
         if (textClicks===0) {
             return (
-                <Text onClick={this.handleClick} key={this.name.index}>
+                <Text data-text={this.name.text} onClick={this.handleClick} key={this.name.index}>
                 {text}
                 </Text>
             );
         } else if (textClicks===1) {
             return (
                 <div>
-                    <GreenText onClick={this.handleClick} key={this.name.index}>
+                    <GreenText data-text={this.name.text} onClick={this.handleClick} key={this.name.index}>
                         <span aria-label="yes" role="img">👍</span>{text}
                     </GreenText>
                     {notes}
@@ -100,7 +136,7 @@ class Row extends React.Component {
         } else if (textClicks===2) {
             return (
                 <div>
-                    <RedText onClick={this.handleClick} key={this.name.index}>
+                    <RedText data-text={this.name.text} onClick={this.handleClick} key={this.name.index}>
                         <span aria-label="no" role="img">👎</span>{text}
                     </RedText>
                     {notes}
@@ -109,7 +145,7 @@ class Row extends React.Component {
         } else if (textClicks===3) {
             return (
                 <div>
-                    <NotApplicableText onClick={this.handleClick} key={this.name.index}>
+                    <NotApplicableText data-text={this.name.text} onClick={this.handleClick} key={this.name.index}>
                         {text}
                     </NotApplicableText>
                     {notes}

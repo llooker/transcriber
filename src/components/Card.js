@@ -59,13 +59,14 @@ class Card extends React.Component {
   }
   
   render() {
+    let title = this.card.title;
     if (!this.state.isHidden) {
       return (
         <Div>
           <Container>
-            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {this.card.title}</Title>
+            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {title}</Title>
             {this.card.rows.map((name, index) => (
-              <Row key={index} name={name}/>
+              <Row key={index} card={title} name={name}/>
             ))}
           </Container>
         </Div>
@@ -76,7 +77,7 @@ class Card extends React.Component {
         <Div>
           <Container>
             <Remove onClick={this.remove} alt="Remove">x</Remove>
-            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {this.card.title}</Title>
+            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {title}</Title>
           </Container>
         </Div>
       );
