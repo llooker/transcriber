@@ -20,13 +20,16 @@ class SaveButton extends React.Component {
         body: JSON.stringify(window.jsonForGoogleApps)
     }).then(function(response) {
         console.log(response)
-        alert('Success');
+        alert('Success, check the "Output from Checklists App" folder!');
     });  
   }
 
   render() {
     return (
-        <input type="button" onClick={this.save} value="Save to Google Doc"/>
+        <div>
+            <input type="button" onClick={this.save} value="Save to Google Doc"/> then check the
+            <a href="https://drive.google.com/drive/u/0/folders/1VXtp98I-A8MFdo-wN3iHnYOPYtqh8lTI"> Output from Checklists App</a> folder
+        </div>
     )
   }
 }
