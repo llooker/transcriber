@@ -37,17 +37,27 @@ const NotApplicableText = styled.div`
 const Notes = styled.div`
   border-bottom: 1px solid #e6ecf0;
   padding: 15px 15px;
-`
+`;
+
+const Score = styled.div`
+  border-bottom: 1px solid #e6ecf0;
+  padding: 15px 15px;
+`;
 
 class Row extends React.Component {
 
-    constructor({name,card}) {
-      super();
-      this.name = name;
-      this.card = card;
+    constructor(props) {
+      super(props);
+      this.idx = this.props.idx
+      this.name = this.props.name;
+      this.card = this.props.card;
+      this.updateScore = this.props.updateScore;
       this.handleClick = this.handleClick.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      this.state = {textClicks: 0};
+      this.state = {
+          textClicks: 0, 
+          score: this.props.score
+        };
     }
 
     handleClick(e) {
@@ -117,12 +127,17 @@ class Row extends React.Component {
             .replace(specialWords, styledSpecialWords)}}></span>
 
         let notes = <Notes><textarea onChange={this.handleChange} value={this.state.value} cols="90" rows="3"/></Notes>
+
+        let score = <Score><input type="number" pattern="[0-9]*" onInput={(e)=>this.props.updateScore(e.target.value,this.idx)} value={this.state.score}/> Score: 0-10</Score>
         
         if (textClicks===0) {
             return (
-                <Text data-text={this.name.text} onClick={this.handleClick} key={this.name.index}>
-                {text}
-                </Text>
+                <div>
+                    <Text data-text={this.name.text} onClick={this.handleClick} key={this.name.index}>
+                    {text}
+                    </Text>
+                    {score}
+                </div>
             );
         } else if (textClicks===1) {
             return (

@@ -25,6 +25,13 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
+const Total = styled.div`
+  border-bottom: 1px solid #e6ecf0;
+  padding: 15px 15px;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
 const Remove = styled.div`
   padding: 15px 15px;
   float: right;
@@ -40,9 +47,13 @@ class Card extends React.Component {
     this.state = {
       isHidden: true,
       isRemoved: false,
+      rowScores: {},
+      totalScore: 0
     }
     this.toggleHidden = this.toggleHidden.bind(this);
     this.remove = this.remove.bind(this);
+    this.addScores = this.addScores.bind(this);
+    this.updateScore = this.updateScore.bind(this);
   }
 
   toggleHidden () {
@@ -57,6 +68,20 @@ class Card extends React.Component {
       isHidden: true
     })
   }
+
+  addScores(a,b) {
+    return Number(a) + Number(b)
+  }
+
+  updateScore (value, idx) {
+    let newScores = Object.assign({}, this.state.rowScores)
+    newScores[idx] = value
+    const scoreSum = Object.values(newScores).reduce(this.addScores, 0)
+    this.setState({
+      rowScores: newScores,
+      totalScore: scoreSum
+    })
+  }
   
   render() {
     let title = this.card.title;
@@ -66,8 +91,9 @@ class Card extends React.Component {
           <Container>
             <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {title}</Title>
             {this.card.rows.map((name, index) => (
-              <Row key={index} card={title} name={name}/>
+              <Row key={index} card={title} name={name} score={this.state.rowScores[index]} idx={index} updateScore={this.updateScore}></Row>
             ))}
+            <Total>Total Score: {this.state.totalScore} / {this.card.rows.length * 10} = {this.state.totalScore / (this.card.rows.length * 10)*100}%</Total>
           </Container>
         </Div>
       );
