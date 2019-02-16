@@ -25,18 +25,22 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
-const Total = styled.div`
-  border-bottom: 1px solid #e6ecf0;
-  padding: 15px 15px;
-  font-size: 16px;
-  font-weight: bold;
-`;
-
 const Remove = styled.div`
   padding: 15px 15px;
   float: right;
   cursor: pointer;
   color: #ddd;
+`
+
+const Score = styled.div`
+  float: right;
+  font-weight: normal;
+`
+
+const Super = styled.span`
+  font-size: 12px;
+  color: #bbb;
+  padding-left: 10px;
 `
 
 class Card extends React.Component {
@@ -85,15 +89,15 @@ class Card extends React.Component {
   
   render() {
     let title = this.card.title;
+    let score_percent = Math.round(this.state.totalScore / (this.card.rows.length * 4)*100)
     if (!this.state.isHidden) {
       return (
         <Div>
           <Container>
-            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {title}</Title>
+            <Title onClick={this.toggleHidden}><input type="checkbox" readOnly checked={!this.state.isHidden}/> {title} <Score>{score_percent}% <Super>({this.state.totalScore}/{this.card.rows.length * 4})</Super></Score></Title>
             {this.card.rows.map((name, index) => (
               <Row key={index} card={title} name={name} score={this.state.rowScores[index]} idx={index} updateScore={this.updateScore}></Row>
             ))}
-            <Total>Total Score: {this.state.totalScore} / {this.card.rows.length * 10} = {this.state.totalScore / (this.card.rows.length * 10)*100}%</Total>
           </Container>
         </Div>
       );

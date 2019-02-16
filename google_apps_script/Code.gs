@@ -2,8 +2,8 @@ var summary = [];
 summary['Monitoring'] = 'Mature technical architectures treat monitoring as a first-order principle. Monitoring can be implemented with custom tools or with popular SaaS applications.'
 summary['Data Pipeline'] = 'The ideal process to make timely and accurate data available for modeling is to extract from business systems, load to an analytical database as-is, and then transform with Looker—ELT—but in enterprise use cases, the volume and complexity of data may require additional data engineering.'
 summary['Database Connections'] = 'Build a foundation to rely on by making sure every database that Looker connects to is configured properly. Looker works best with massively parallel processing (MPP) database architectures.'
-summary['Application Servers - On-Premise'] = 'Like all web application servers, setting up and maintaining a Looker application server requires some planning. Follow these best practices to ensure a small issue doesn’t turn into an emergency.'
-summary['Application Database - On-Premise'] = 'Looker uses an application database to store the metadata required to run Looker. In clustered environments this is typically a MySQL database.'
+summary['Application Servers (On-Premise)'] = 'Like all web application servers, setting up and maintaining a Looker application server requires some planning. Follow these best practices to ensure a small issue doesn’t turn into an emergency.'
+summary['Application Database (On-Premise)'] = 'Looker uses an application database to store the metadata required to run Looker. In clustered environments this is typically a MySQL database.'
 summary['Performance'] = 'A slow user experience is frustrating and makes adoption difficult, but delivering instant answers to your users is magical. The cumulative effects of computing horsepower, clever summarization in the model, judicious use of caching, appropriate configuration, and simplified content make magic possible.'
 summary['Data Security'] = 'Looker has a complex security model that allows you to fine-tune content access, data access, and feature access to an almost infinite degree. Following best practices to configure end-user access and permissions ensures the security model remains robust, flexible, and most of all, understandable.'
 summary['LookML Development'] = 'Developing with LookML should be treated like developing with any other programming language. Success requires a development methodology, shared coding standards, and smart code promotion.'
@@ -37,7 +37,7 @@ function appendElementToDoc(appendTo, element) {
   return appendTo;
 }
 
-// curl -H "Content-Type: application/json" -d '{"customer":"Merrill","cards":{"LookML Development":{"rows":{"A development and staging workflow is used to promote changes":{"notes":"cat","state":1},"A defined process exists for end-users to make modeling requests":{"notes":"rat","state":2},"A defined process exists to organize and prioritize modeling requests":{"notes":"bat","state":3}}},"LookML Project Organization":{"rows":{"Separate Projects are recommended when there are disparate application teams or development groups with limited collaboration between the teams.":{"notes":"zebra","state":1},"Separate Projects are recommended when team have different deployment schedules and release cycles. Each projects must use a dedicated GIT repository.":{"notes":"donkey","state":1},"Avoid creating DEV/QA Projects on the same instance since it adds to complexity with development and deployment of LookML files and content.":{"notes":"chipmunk","state":2}}}}}' https://script.google.com/a/looker.com/macros/s/AKfycbzAAHv7EHgJRbZ5f8IqnK3IPqWDlnuUZWZTC-zIfw/exec
+// curl -H "Content-Type: application/json" -d '{"customer":"Merrill","cards":{"LookML Development":{"rows":{"A development and staging workflow is used to promote changes":{"notes":"cat","score":1},"A defined process exists for end-users to make modeling requests":{"notes":"rat","score":2},"A defined process exists to organize and prioritize modeling requests":{"notes":"bat","score":3}}},"LookML Project Organization":{"rows":{"Separate Projects are recommended when there are disparate application teams or development groups with limited collaboration between the teams.":{"notes":"zebra","score":1},"Separate Projects are recommended when team have different deployment schedules and release cycles. Each projects must use a dedicated GIT repository.":{"notes":"donkey","score":1},"Avoid creating DEV/QA Projects on the same instance since it adds to complexity with development and deployment of LookML files and content.":{"notes":"chipmunk","score":2}}}}}' https://script.google.com/a/looker.com/macros/s/AKfycbzAAHv7EHgJRbZ5f8IqnK3IPqWDlnuUZWZTC-zIfw/exec
 function doPost(e) {
   input = JSON.parse(e.postData.contents)
 
@@ -83,21 +83,38 @@ function doPost(e) {
     
     var tables = body.getTables()
     var notes = ""
-    
+    var totalPossibleScore = 0
+    var totalScore = 0
+
     for (var row in input['cards'][cardName]['rows']) {
       var nextRow = tables[(cardCount*2)].appendTableRow();
       
-      var state = input['cards'][cardName]['rows'][row].state
-      switch (state) {
+      var score = input['cards'][cardName]['rows'][row].score
+      totalPossibleScore += 4
+      totalScore += score
+
+      switch (score) {
+        case 0:
+          var label = '0️⃣';
+          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#E1C2C2'; 
+          break;
         case 1:
-          var label = 'Yes';
+          var label = '1️⃣';
           cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
           break;
         case 2:
-          var label = 'No';
-          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#E1C2C2'; 
+          var label = '2️⃣';
+          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
           break;
         case 3:
+          var label = '3️⃣';
+          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
+          break;
+        case 4:
+          var label = '4️⃣';
+          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
+          break;
+        case 5:
           var label = 'N/A';
           cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#EEEEEE'; 
           break;
@@ -111,7 +128,17 @@ function doPost(e) {
     }
    
     body.editAsText().replaceText("{{ NOTES }}", notes)
- 
+
+    var scoreRowStyle = {};
+    scoreRowStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
+    scoreRowStyle[DocumentApp.Attribute.BOLD] = true;
+    scoreRowStyle[DocumentApp.Attribute.ITALIC] = true;
+
+    var score_percent = Math.round(totalScore / totalPossibleScore * 100)
+    var nextRow = tables[(cardCount*2)].appendTableRow();
+    nextRow.appendTableCell("Achieved " + totalScore + " of " + totalPossibleScore + " possible points").setAttributes(scoreRowStyle);
+    nextRow.appendTableCell(score_percent + "%").setAttributes(scoreRowStyle);
+
     cardCount++;
   }
   
