@@ -1,16 +1,16 @@
 {
   "main.css": "/guru-graphql-client/static/css/main.b44ae3cc.chunk.css",
-  "main.js": "/guru-graphql-client/static/js/main.7b464c70.chunk.js",
-  "main.js.map": "/guru-graphql-client/static/js/main.7b464c70.chunk.js.map",
+  "main.js": "/guru-graphql-client/static/js/main.b7bf2962.chunk.js",
+  "main.js.map": "/guru-graphql-client/static/js/main.b7bf2962.chunk.js.map",
   "static/css/1.6100524d.chunk.css": "/guru-graphql-client/static/css/1.6100524d.chunk.css",
-  "static/js/1.40196509.chunk.js": "/guru-graphql-client/static/js/1.40196509.chunk.js",
-  "static/js/1.40196509.chunk.js.map": "/guru-graphql-client/static/js/1.40196509.chunk.js.map",
+  "static/js/1.42c62043.chunk.js": "/guru-graphql-client/static/js/1.42c62043.chunk.js",
+  "static/js/1.42c62043.chunk.js.map": "/guru-graphql-client/static/js/1.42c62043.chunk.js.map",
   "runtime~main.js": "/guru-graphql-client/static/js/runtime~main.9bb77a17.js",
   "runtime~main.js.map": "/guru-graphql-client/static/js/runtime~main.9bb77a17.js.map",
   "static/css/1.6100524d.chunk.css.map": "/guru-graphql-client/static/css/1.6100524d.chunk.css.map",
   "static/media/logo.svg": "/guru-graphql-client/static/media/logo.c35b2089.svg",
   "static/css/main.b44ae3cc.chunk.css.map": "/guru-graphql-client/static/css/main.b44ae3cc.chunk.css.map",
   "index.html": "/guru-graphql-client/index.html",
-  "precache-manifest.b91f52d62724ecf187e68323ac3c5d4d.js": "/guru-graphql-client/precache-manifest.b91f52d62724ecf187e68323ac3c5d4d.js",
+  "precache-manifest.c2bd84b60c77a6029a738f33547fd928.js": "/guru-graphql-client/precache-manifest.c2bd84b60c77a6029a738f33547fd928.js",
   "service-worker.js": "/guru-graphql-client/service-worker.js"
 }
