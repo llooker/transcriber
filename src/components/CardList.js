@@ -9,7 +9,7 @@ class CardList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {reviewType: 'lookml'};
+    this.state = {reviewType: 'cs'};
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -34,6 +34,9 @@ class CardList extends React.Component {
         let includedCards = [];
 
         switch (this.state.reviewType) {
+          case 'cs':
+            includedCards = ['Top 10 Behaviors and Characteristics of Successful Customers'];
+          break;
           case 'lookml':
             includedCards = ['LookML Development',
                              'LookML Project Organization',
@@ -67,6 +70,7 @@ class CardList extends React.Component {
           <div>
             <label htmlFor="reviewType">Choose Review:</label>
             <select id="reviewType" value={this.state.reviewType} onChange={this.handleChange}>
+              <option value="cs">Customer Success</option>
               <option value="lookml">LookML</option>
               <option value="architecture">On-Premise Architecture</option>
               <option value="dataculture">Data Culture</option>
@@ -105,6 +109,7 @@ export const UserQuery = gql`
               ,"iGB6RkXT" # LookML Project, Model & View Organization
               ,"TXrjjBpc" # Content Management
               ,"c5KnnjRi" # User Enablement
+              ,"inEpreBT" # Customer Success Top 10
               ]) {
       title
       rows {

@@ -11,7 +11,7 @@ summary['Release Management'] = 'Looker runs on a rapid release cycle and improv
 summary['Content Management'] = 'Curating content and fields in Looker ensures end-users easily find the valuable answers they need and don’t waste their time wondering if they’re on the correct version of a look or explore. Like all housekeeping, a little bit at a time on a regular schedule is preferable to cleaning up a great big mess.'
 summary['User Enablement'] = 'Creating a centre of excellence can deepen data culture and promote further adoption. Building data analytics as a core competency  requires a thoughtful approach to end-user training and enablement, and is easier if other architectural components and processes score highly first.'
 summary['Comprehensive Project, Model, & View Organization'] = ''
-summary['LookML Project Organization'] = ''
+summary['Top 10 Behaviors and Characteristics of Successful Customers'] = 'We identified the top things that our most successful customers do.'
 summary['LookML Project Organization'] = ''
 
 function underscoreToCamelCase(type) {
@@ -121,7 +121,9 @@ function doPost(e) {
       }
 
       nextRow.appendTableCell(row).setAttributes(cellStyle);
-      nextRow.appendTableCell(label).setAttributes(cellStyle);
+      var labelStyle = {};
+      labelStyle[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
+      nextRow.appendTableCell(label).getChild(0).asParagraph().setAttributes(labelStyle);
 
       if (input['cards'][cardName]['rows'][row].notes)
         notes += input['cards'][cardName]['rows'][row].notes + "\n"
@@ -137,7 +139,8 @@ function doPost(e) {
     var score_percent = Math.round(totalScore / totalPossibleScore * 100)
     var nextRow = tables[(cardCount*2)].appendTableRow();
     nextRow.appendTableCell("Achieved " + totalScore + " of " + totalPossibleScore + " possible points").setAttributes(scoreRowStyle);
-    nextRow.appendTableCell(score_percent + "%").setAttributes(scoreRowStyle);
+    scoreRowStyle[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
+    nextRow.appendTableCell(score_percent + "%").getChild(0).asParagraph().setAttributes(scoreRowStyle);
 
     cardCount++;
   }
