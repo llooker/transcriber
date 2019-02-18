@@ -166,7 +166,7 @@ class Row extends React.Component {
         }
 
         if (clicks >= 1) {
-            notes = <Notes><textarea onChange={this.handleChange} value={this.state.value} cols="90" rows="3"/></Notes>
+            notes = <Notes><textarea onChange={this.handleChange} value={this.state.value} cols="78" rows="3"/></Notes>
         }
 
         if (clicks <= 5) {
