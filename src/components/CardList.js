@@ -67,8 +67,8 @@ class CardList extends React.Component {
         });
 
         return (
-          <div>
-            <label htmlFor="reviewType">Choose Review:</label>
+          <div><p>&nbsp;</p>
+            <label htmlFor="reviewType">Category:</label>
             <select id="reviewType" value={this.state.reviewType} onChange={this.handleChange}>
               <option value="cs">Customer Success</option>
               <option value="lookml">LookML</option>
