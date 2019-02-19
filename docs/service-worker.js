@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/guru-graphql-client/precache-manifest.b1589e03d2d02cfd5d2dee15146aa8a4.js"
+  "/guru-graphql-client/precache-manifest.953a4d6568119f29c2b3c4977eac1d3a.js"
 );
 
 workbox.clientsClaim();
