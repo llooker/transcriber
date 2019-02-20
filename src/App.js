@@ -21,7 +21,7 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h2>This app will help you conduct different types of reviews and audits</h2>
+            <h2><div class="tooltip">Transcriber<span class="tooltiptext">Transcriber <span class="underline">r</span>eproduces <span class="underline">a</span>nalytical, <span class="underline">n</span>eat, similarly-comprehensive reviews, incorporating #bestpractices every rendition</span></div> will help you conduct different types of reviews and audits</h2>
           </div>
           <div className="App-User">
             <CardList />
