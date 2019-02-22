@@ -6,13 +6,14 @@ summary['Application Servers (On-Premise)'] = 'Like all web application servers,
 summary['Application Database (On-Premise)'] = 'Looker uses an application database to store the metadata required to run Looker. In clustered environments this is typically a MySQL database.'
 summary['Performance'] = 'A slow user experience is frustrating and makes adoption difficult, but delivering instant answers to your users is magical. The cumulative effects of computing horsepower, clever summarization in the model, judicious use of caching, appropriate configuration, and simplified content make magic possible.'
 summary['Data Security'] = 'Looker has a complex security model that allows you to fine-tune content access, data access, and feature access to an almost infinite degree. Following best practices to configure end-user access and permissions ensures the security model remains robust, flexible, and most of all, understandable.'
-summary['LookML Development'] = 'Developing with LookML should be treated like developing with any other programming language. Success requires a development methodology, shared coding standards, and smart code promotion.'
 summary['Release Management'] = 'Looker runs on a rapid release cycle and improves quickly. By taking advantage of our release cadence and matching your own development workflow to it, you set the pace required to build a healthy data culture and generate a process of ongoing improvement that benefits your organization.'
 summary['Content Management'] = 'Curating content and fields in Looker ensures end-users easily find the valuable answers they need and don’t waste their time wondering if they’re on the correct version of a look or explore. Like all housekeeping, a little bit at a time on a regular schedule is preferable to cleaning up a great big mess.'
 summary['User Enablement'] = 'Creating a centre of excellence can deepen data culture and promote further adoption. Building data analytics as a core competency  requires a thoughtful approach to end-user training and enablement, and is easier if other architectural components and processes score highly first.'
-summary['Comprehensive Project, Model, & View Organization'] = ''
 summary['Top 10 Behaviors and Characteristics of Successful Customers'] = 'We identified the top things that our most successful customers do.'
+summary['LookML Development'] = ''
 summary['LookML Project Organization'] = ''
+summary['LookML Explore Organization'] = ''
+summary['Comprehensive Project, Model & View Organization'] = ''
 
 function underscoreToCamelCase(type) {
   type = type.toLowerCase();
@@ -59,6 +60,7 @@ function doPost(e) {
   
   var cellStyle = {};
   cellStyle[DocumentApp.Attribute.BOLD] = false;
+  cellStyle[DocumentApp.Attribute.FONT_FAMILY] = 'Helvetica Neue';  
   
   var cardCount = 0
   
@@ -87,57 +89,63 @@ function doPost(e) {
     var totalScore = 0
 
     for (var row in input['cards'][cardName]['rows']) {
-      var nextRow = tables[(cardCount*2)].appendTableRow();
-      
-      var score = input['cards'][cardName]['rows'][row].score
-      totalPossibleScore += 4
-      totalScore += score
+      if (row != "null") {
+        var nextRow = tables[cardCount].appendTableRow();
+        
+        var score = input['cards'][cardName]['rows'][row].score
+        totalPossibleScore += 4
+        totalScore += score
 
-      switch (score) {
-        case 0:
-          var label = '0️⃣';
-          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#E1C2C2'; 
-          break;
-        case 1:
-          var label = '1️⃣';
-          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
-          break;
-        case 2:
-          var label = '2️⃣';
-          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
-          break;
-        case 3:
-          var label = '3️⃣';
-          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
-          break;
-        case 4:
-          var label = '4️⃣';
-          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
-          break;
-        case 5:
-          var label = 'N/A';
-          cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#EEEEEE'; 
-          break;
+        switch (score) {
+          case 0:
+            var label = '0';
+            cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; //E1C2C2
+            break;
+          case 1:
+            var label = '1';
+            cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
+            break;
+          case 2:
+            var label = '2';
+            cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
+            break;
+          case 3:
+            var label = '3';
+            cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
+            break;
+          case 4:
+            var label = '4';
+            cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
+            break;
+          case 5:
+            var label = 'N/A';
+            cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#EEEEEE'; 
+            break;
+        }
+
+        nextRow.appendTableCell(row).setAttributes(cellStyle);
+
+        if (input['cards'][cardName]['rows'][row].notes) {
+          var noteStyle = {};
+          noteStyle[DocumentApp.Attribute.FONT_FAMILY] = 'Times New Roman';
+          noteStyle[DocumentApp.Attribute.FONT_SIZE] = 10;
+          nextRow.getCell(0).insertHorizontalRule(1);
+          nextRow.getCell(0).insertParagraph(2, "\n  " + input['cards'][cardName]['rows'][row].notes + "\n").setAttributes(noteStyle);
+        }
+
+        var labelStyle = {};
+        labelStyle[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
+        nextRow.appendTableCell(label).getChild(0).asParagraph().setAttributes(labelStyle);
       }
-
-      nextRow.appendTableCell(row).setAttributes(cellStyle);
-      var labelStyle = {};
-      labelStyle[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
-      nextRow.appendTableCell(label).getChild(0).asParagraph().setAttributes(labelStyle);
-
-      if (input['cards'][cardName]['rows'][row].notes)
-        notes += input['cards'][cardName]['rows'][row].notes + "\n"
     }
-   
-    body.editAsText().replaceText("{{ NOTES }}", notes)
-
+  
     var scoreRowStyle = {};
     scoreRowStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#FFFFFF'; 
     scoreRowStyle[DocumentApp.Attribute.BOLD] = true;
     scoreRowStyle[DocumentApp.Attribute.ITALIC] = true;
 
     var score_percent = Math.round(totalScore / totalPossibleScore * 100)
-    var nextRow = tables[(cardCount*2)].appendTableRow();
+    var nextRow = tables[cardCount].appendTableRow();
     nextRow.appendTableCell("Achieved " + totalScore + " of " + totalPossibleScore + " possible points").setAttributes(scoreRowStyle);
     scoreRowStyle[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
     nextRow.appendTableCell(score_percent + "%").getChild(0).asParagraph().setAttributes(scoreRowStyle);
@@ -147,7 +155,19 @@ function doPost(e) {
   
   body.editAsText().replaceText("{{ CUSTOMER }}", input['customer'])
   footer.editAsText().replaceText("{{ CUSTOMER }}", input['customer'])
-  
+
+  var highlight_words = ["access_filter","sql_always_where","required_access_grants","no-report-backend-errors","datagroup_trigger","._in_query","system__activity","i__looker","_dialect._name","${TABLE}.column","persist_with","persist_for","view_label","group_label","value_format","named_value_format","sql_trigger_value","1551","61616","22","443","587","9000","19999","9999","mysql_secure_installation","utf8mb4_general_ci","utf8mb4","datagroups"];
+  for (var key in highlight_words) {
+    var searchResult = body.findText(highlight_words[key]);
+    while (searchResult !== null) {
+      var thisElement = searchResult.getElement();
+      var thisElementText = thisElement.asText();
+      thisElementText.setForegroundColor(searchResult.getStartOffset(), searchResult.getEndOffsetInclusive(),"#6997BF");
+      thisElementText.setFontFamily(searchResult.getStartOffset(), searchResult.getEndOffsetInclusive(),"Roboto Mono");
+      searchResult = body.findText(highlight_words[key], searchResult);
+    }
+  }
+
   var folder = DriveApp.getFolderById('1VXtp98I-A8MFdo-wN3iHnYOPYtqh8lTI');
   folder.addFile(DriveApp.getFileById(newDoc.getId()));
   

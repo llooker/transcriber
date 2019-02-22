@@ -20,7 +20,7 @@ class SaveButton extends React.Component {
         body: JSON.stringify(window.jsonForGoogleApps)
     }).then(function(response) {
         console.log(response)
-        alert('Success, check the "Output from Checklists App" folder!');
+        alert('Success, check the Transcriber Output folder.');
     });  
   }
 
