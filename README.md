@@ -1,4 +1,4 @@
-Transcriber [r]{.underline}eproduces [a]{.underline}nalytical, [n]{.underline}eat, similarly-comprehensive reviews, incorporating \#bestpractices every rendition
+Transcriber reproduces analytical, neat, similarly-comprehensive reviews, incorporating #bestpractices every rendition
 =================================================================================================================================================================
 
 Owner: Drew Gillson
