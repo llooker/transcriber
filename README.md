@@ -1,4 +1,5 @@
-Owner: Drew Gillson
+What is this?
+------------
 
 This project will deliver a web application that PS consultants and TSMs
 can use to:
@@ -30,19 +31,6 @@ Project Goal
 
 The goal is to have this new tool being used widely by PS consultants to
 perform reviews by the end of Q1 2019.
-
-Timeline
---------
-
-1.  ~~Prototype complete by January 31st~~ ✔️
-
-2.  ~~Google Docs template integration complete by February 8^th\ ^~~✔️
-
-3.  ~~Review scoring feature complete by February 8^th^~~
-
-4.  Lens (design) treatment applied by February 15th
-
-5.  ~~Present application at PS Global meeting on February 20^th^~~
 
 How You Can Help:
 -----------------
