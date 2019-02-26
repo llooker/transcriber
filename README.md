@@ -103,10 +103,6 @@ Feature Requests
 
 -   Save and continue (Local Storage)
 
--   ~~Number/enumerate the items - and then number the comments in the
-    Notes & Recommendations? That way, it's clear that xyz is a
-    recommendation for item 1,2,3. ~~
-
 -   Add a "Prepared by:" \[name\] and "Evaluated On:" \[date\] in the
     footers
 
