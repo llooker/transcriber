@@ -36,26 +36,26 @@ How You Can Help:
 -----------------
 
 -   You can work with the \#best-practice-team to contribute to the Guru
-    > cards on the [Best
-    > Practices](https://app.getguru.com/boards/9TaBAgKT/Best-Practices-Approved-Crossfunctionally)
-    > board and make them more specific (for instance, we should have
-    > dialect-specific cards instead of "Database Connections"
+    cards on the [Best
+    Practices](https://app.getguru.com/boards/9TaBAgKT/Best-Practices-Approved-Crossfunctionally)
+    board and make them more specific (for instance, we should have
+    dialect-specific cards instead of "Database Connections"
 
 -   You can improve the categorization of cards and topics that make up
-    > the different options in the "Choose Review" dropdown (this should
-    > match Services Offerings)
+    the different options in the "Choose Review" dropdown (this should
+    match Services Offerings)
 
 -   You can contribute to the development work required to finish this
-    > off:
+    off:
 
     -   applying Lens design styles, at least
-        > [color](https://lens.looker.com/#/Style/Color)
-        > and
-        > [typography](https://lens.looker.com/#/Style/Typography)
+        [color](https://lens.looker.com/#/Style/Color)
+        and
+        [typography](https://lens.looker.com/#/Style/Typography)
 
 -   You can make suggestions to improve the
-    > [template](https://docs.google.com/document/d/1qHC9rC-3GIs6S9j50OQ_Magj03g7KA8xayoWARVHeFg/edit#)
-    > used to compose the deliverable
+    [template](https://docs.google.com/document/d/1qHC9rC-3GIs6S9j50OQ_Magj03g7KA8xayoWARVHeFg/edit#)
+    used to compose the deliverable
 
 Stakeholders
 ------------
@@ -69,46 +69,46 @@ User Stories
 -   As a Professional Services consultant or TSM:
 
     -   I can choose templates that correspond to a particular set of
-        > Guru cards, so that it is easy to load only the relevant cards
+        Guru cards, so that it is easy to load only the relevant cards
 
     -   I can conduct a LookML model review, an on-premise architecture
-        > review, or any other type of saved review from a template,
-        > this reminds me to ask the right questions, and makes it easy
-        > to produce a deliverable for my customer
+        review, or any other type of saved review from a template,
+        this reminds me to ask the right questions, and makes it easy
+        to produce a deliverable for my customer
 
     -   I can mark customer compliance with best practices with a
-        > numeric score, or not applicable, and leave detailed notes on
-        > each item
+        numeric score, or not applicable, and leave detailed notes on
+        each item
 
     -   I will see a numeric score based on my input, which will make it
-        > easier to track customer progress over time in a quantitative
-        > way
+        easier to track customer progress over time in a quantitative
+        way
 
     -   I can export my findings to a nicely-formatted Google Doc
-        > deliverable template to share with my customer, this saves
-        > time, improves the quality of our deliverables, and encourages
-        > consistency among team members
+        deliverable template to share with my customer, this saves
+        time, improves the quality of our deliverables, and encourages
+        consistency among team members
 
 Feature Requests
 ----------------
 
 -   Make it obvious that Guru cards are associated to Transcriber from
-    > within Guru
+    within Guru
 
 -   Include a link back to the original Guru card
 
 -   Allow rows to have custom scoring criteria, this could be built by
-    > adding a 2nd column to the card containing a scoring rubric e.g.
-    > 0-4, 0-9
+    adding a 2nd column to the card containing a scoring rubric e.g.
+    0-4, 0-9
 
 -   Save and continue (Local Storage)
 
 -   ~~Number/enumerate the items - and then number the comments in the
-    > Notes & Recommendations? That way, it's clear that xyz is a
-    > recommendation for item 1,2,3. ~~
+    Notes & Recommendations? That way, it's clear that xyz is a
+    recommendation for item 1,2,3. ~~
 
 -   Add a "Prepared by:" \[name\] and "Evaluated On:" \[date\] in the
-    > footers
+    footers
 
 Bugs
 ----
