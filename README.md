@@ -1,6 +1,3 @@
-Transcriber reproduces analytical, neat, similarly-comprehensive reviews, incorporating #bestpractices every rendition
-=================================================================================================================================================================
-
 Owner: Drew Gillson
 
 This project will deliver a web application that PS consultants and TSMs
