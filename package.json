@@ -1,6 +1,6 @@
 {
-  "name": "guru-graphql-client",
-  "homepage": "https://drewgillson.github.io/guru-graphql-client/",
+  "name": "transcriber",
+  "homepage": "https://llooker.github.io/transcriber/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

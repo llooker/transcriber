@@ -129,7 +129,7 @@ class Row extends React.Component {
     }
 
     render() {
-        let LookMLWords = /\b(access_filter|sql_always_where|required_access_grants|no-report-backend-errors|datagroup_trigger|\._in_query|system__activity|i__looker|_dialect\._name|\$\{TABLE\}\.column|persist_for|view_label|group_label|value_format|named_value_format|sql_trigger_value)/gi
+        let LookMLWords = /\b(access_filter|sql_always_where|required_access_grants|no-report-backend-errors|datagroups|datagroup_trigger|\._in_query|system__activity|i__looker|_dialect\._name|\$\{TABLE\}\.column|persist_with|persist_for|view_label|group_label|value_format|named_value_format|sql_trigger_value)/gi
         let styledLookMLWords = '<span class="lookml">$1</span>'
       
         let ports = /\b(1551|61616|22|443|587|9000|19999|9999)/gi
