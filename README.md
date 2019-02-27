@@ -36,13 +36,12 @@ How You Can Help:
 -----------------
 
 -   You can work with the \#best-practice-team to contribute to the Guru
-    cards on the [Best
-    Practices](https://app.getguru.com/boards/9TaBAgKT/Best-Practices-Approved-Crossfunctionally)
+    cards on the [Transcriber](https://app.getguru.com/boards/yiKXnGpi/Transcriber)
     board and make them more specific (for instance, we should have
     dialect-specific cards instead of "Database Connections"
 
 -   You can improve the categorization of cards and topics that make up
-    the different options in the "Choose Review" dropdown (this should
+    the different options in the "Section" dropdown (this should
     match Services Offerings)
 
 -   You can contribute to the development work required to finish this
@@ -92,21 +91,15 @@ User Stories
 Feature Requests
 ----------------
 
--   Make it obvious that Guru cards are associated to Transcriber from
-    within Guru
-
--   Include a link back to the original Guru card
-
 -   Allow rows to have custom scoring criteria, this could be built by
     adding a 2nd column to the card containing a scoring rubric e.g.
     0-4, 0-9
 
--   Save and continue (Local Storage)
+-   Add save and continue feature using browser Local Storage
 
--   Add a "Prepared by:" \[name\] and "Evaluated On:" \[date\] in the
-    footers
+-   Add a "Prepared by: [Name]" and "Evaluated On: [Date]" to footer automatically
 
 Bugs
 ----
 
--   Score of over 100% is possible
+-   Score of over 100% has happened once or twice but no repro so far
