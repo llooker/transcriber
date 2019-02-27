@@ -20,10 +20,8 @@ participation:
 
 The Guru knowledge management system is used to store the content
 presented by the tool. The content is saved in verified cards on the
-[Best
-Practices](https://app.getguru.com/boards/9TaBAgKT/Best-Practices-Approved-Crossfunctionally)
-board, and the tools selects only those cards relevant to the type of
-review being performed. These cards will be maintained by the
+[Transcriber](https://app.getguru.com/boards/yiKXnGpi/Transcriber)
+board. These cards will be maintained by the
 \#best-practice-team with input from Professional Services.
 
 Project Goal
