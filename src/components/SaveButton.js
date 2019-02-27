@@ -29,6 +29,7 @@ class SaveButton extends React.Component {
         <div>
             <input type="button" onClick={this.save} value="Save to Google Doc"/> then check the
             <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/u/0/folders/1VXtp98I-A8MFdo-wN3iHnYOPYtqh8lTI"> Output</a> folder
+            <p>&nbsp;</p>
         </div>
     )
   }

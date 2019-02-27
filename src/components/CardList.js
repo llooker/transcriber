@@ -24,7 +24,7 @@ class CardList extends React.Component {
       {({ loading, error, data }) => {
 
         if (loading) {
-          return <p>Loading ...</p>;
+          return <div><p>&nbsp;</p><p>Loading cards from Guru...</p><p>&nbsp;</p></div>;
         }
         if (error) {
           return <p>{error.message}</p>;
@@ -68,7 +68,7 @@ class CardList extends React.Component {
 
         return (
           <div><p>&nbsp;</p>
-            <label htmlFor="reviewType">Category:</label>
+            <label htmlFor="reviewType">Section:</label>
             <select id="reviewType" value={this.state.reviewType} onChange={this.handleChange}>
               <option value="cs">Customer Success</option>
               <option value="lookml">LookML</option>
@@ -76,11 +76,13 @@ class CardList extends React.Component {
               <option value="dataculture">Data Culture</option>
               <option value="performance">Performance</option>
             </select>
+            <p>&nbsp;</p>
             <div>
                 {cards.map((card, index) => (
                   <Card key={card.title} card={card} />
                 ))}
             </div>
+            <p>&nbsp;</p>
           </div>
         )
       }}
