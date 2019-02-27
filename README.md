@@ -1,7 +1,7 @@
 What is this?
 ------------
 
-This project is a web application that PS consultants and TSMs
+[Transcriber](https://llooker.github.io/transcriber/) is a web application that PS consultants and TSMs
 can use to:
 
 **1)** Conduct a variety of different types of customer reviews (model,
