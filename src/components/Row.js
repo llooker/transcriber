@@ -139,7 +139,7 @@ class Row extends React.Component {
         let styledSpecialWords = '<span class="special">$1</span>'
 
         let markdownLinks = /\[([^\]]+)\]\(([^)]+)\)/gi
-        let htmlLinks = '<a href="$2">$1</a>';
+        let htmlLinks = '<a target="_blank" href="$2">$1</a>';
     
         const clicks = this.state.clicks;
         let score = ""
