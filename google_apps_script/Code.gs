@@ -5,15 +5,16 @@ summary['Database Connections'] = 'Build a foundation to rely on by making sure 
 summary['Application Servers (On-Premise)'] = 'Like all web application servers, setting up and maintaining a Looker application server requires some planning. Follow these best practices to ensure a small issue doesn’t turn into an emergency.'
 summary['Application Database (On-Premise)'] = 'Looker uses an application database to store the metadata required to run Looker. In clustered environments this is typically a MySQL database.'
 summary['Performance'] = 'A slow user experience is frustrating and makes adoption difficult, but delivering instant answers to your users is magical. The cumulative effects of computing horsepower, clever summarization in the model, judicious use of caching, appropriate configuration, and simplified content make magic possible.'
-summary['Data Security'] = 'Looker has a complex security model that allows you to fine-tune content access, data access, and feature access to an almost infinite degree. Following best practices to configure end-user access and permissions ensures the security model remains robust, flexible, and most of all, understandable.'
+summary['Security'] = 'Looker has a complex security model that allows you to fine-tune content access, data access, and feature access to an almost infinite degree. Following best practices to configure end-user access and permissions ensures the security model remains robust, flexible, and most of all, understandable.'
 summary['Release Management'] = 'Looker runs on a rapid release cycle and improves quickly. By taking advantage of our release cadence and matching your own development workflow to it, you set the pace required to build a healthy data culture and generate a process of ongoing improvement that benefits your organization.'
 summary['Content Management'] = 'Curating content and fields in Looker ensures end-users easily find the valuable answers they need and don’t waste their time wondering if they’re on the correct version of a look or explore. Like all housekeeping, a little bit at a time on a regular schedule is preferable to cleaning up a great big mess.'
 summary['User Enablement'] = 'Creating a centre of excellence can deepen data culture and promote further adoption. Building data analytics as a core competency  requires a thoughtful approach to end-user training and enablement, and is easier if other architectural components and processes score highly first.'
 summary['Top 10 Behaviors and Characteristics of Successful Customers'] = 'We identified the top things that our most successful customers do.'
-summary['LookML Development'] = ''
-summary['LookML Project Organization'] = ''
-summary['LookML Explore Organization'] = ''
-summary['Comprehensive Project, Model & View Organization'] = ''
+summary['Development Process & Environment'] = 'These best practices reflect recommendations shared by a cross-functional team of seasoned Lookers. These insights come from years of experience working with Looker customers from implementation to long-term success.'
+summary['Projects'] = 'A project is a collection of LookML files that describe how your database tables are related to each other and how Looker should interpret those tables.'
+summary['Explores'] = 'An Explore is a view that users can query. You can think of the Explore as a starting point for a query, or in SQL terms, as the FROM in a SQL statement. Not all views are Explores, because not all views describe an entity of interest.'
+summary['Models'] = 'A model is a customized portal into the database, designed to provide intuitive data exploration for specific business users. Multiple models can exist for the same database connection in a single LookML project.'
+summary['Views'] = 'A view declaration defines a list of fields (dimensions or measures) and their linkage to an underlying table or derived table. In LookML a view typically references an underlying database table, but it can also represent a derived table.'
 
 function underscoreToCamelCase(type) {
   type = type.toLowerCase();
@@ -63,7 +64,8 @@ function doPost(e) {
   cellStyle[DocumentApp.Attribute.FONT_FAMILY] = 'Helvetica Neue';  
   
   var cardCount = 0
-  
+  var links = []
+
   for (var cardName in input['cards']) {
     var srcBody = template.getBody();
     var elems = srcBody.getNumChildren();
@@ -123,7 +125,13 @@ function doPost(e) {
             break;
         }
 
-        nextRow.appendTableCell(row).setAttributes(cellStyle);
+        var markdownLinks = /\[([^\]]+)\]\(([^)]+)\)/gi
+        var match = markdownLinks.exec(row);
+        while (match != null) {
+          links.push([match[1],match[2]]);
+          match = markdownLinks.exec(row);
+        }
+        nextRow.appendTableCell(row.replace(markdownLinks, 'LINK$1LINK')).setAttributes(cellStyle);
 
         if (input['cards'][cardName]['rows'][row].notes) {
           var noteStyle = {};
@@ -160,17 +168,18 @@ function doPost(e) {
   body.editAsText().replaceText("{{ CUSTOMER }}", input['customer'])
   footer.editAsText().replaceText("{{ CUSTOMER }}", input['customer'])
 
-  var highlight_words = ["access_filter","sql_always_where","required_access_grants","no-report-backend-errors","datagroup_trigger","._in_query","system__activity","i__looker","_dialect._name","${TABLE}.column","persist_with","persist_for","view_label","group_label","value_format","named_value_format","sql_trigger_value","1551","61616","22","443","587","9000","19999","9999","mysql_secure_installation","utf8mb4_general_ci","utf8mb4","datagroups"];
-  for (var key in highlight_words) {
-    var searchResult = body.findText(highlight_words[key]);
+  for (var key in links) {
+    var searchResult = body.findText("LINK" + links[key][0] + "LINK");
     while (searchResult !== null) {
       var thisElement = searchResult.getElement();
       var thisElementText = thisElement.asText();
-      thisElementText.setForegroundColor(searchResult.getStartOffset(), searchResult.getEndOffsetInclusive(),"#6997BF");
+      thisElementText.setLinkUrl(searchResult.getStartOffset(), searchResult.getEndOffsetInclusive(), links[key][1]);
       thisElementText.setFontFamily(searchResult.getStartOffset(), searchResult.getEndOffsetInclusive(),"Roboto Mono");
-      searchResult = body.findText(highlight_words[key], searchResult);
+      searchResult = body.findText("LINK" + links[key][0] + "LINK", searchResult);
     }
   }
+
+  body.editAsText().replaceText("LINK","");
 
   var folder = DriveApp.getFolderById('1VXtp98I-A8MFdo-wN3iHnYOPYtqh8lTI');
   folder.addFile(DriveApp.getFileById(newDoc.getId()));
