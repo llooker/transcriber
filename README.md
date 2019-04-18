@@ -49,7 +49,7 @@ How You Can Help:
 Stakeholders
 ------------
 
-\#tsm (represented by Drew), PS Consultants (represented by Hugo &
+\#tsm (represented by Drew), PS Consultants (represented by Taylor, Hugo, and
 Greg), \#best-practice-team (Tig, Judah, Ryan D., Mike Xu, Zach Michel)
 
 Feature Requests
