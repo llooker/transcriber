@@ -140,10 +140,10 @@ function doPost(e) {
           nextRow.getCell(0).insertHorizontalRule(1);
           nextRow.getCell(0).insertParagraph(2, "\n  " + input['cards'][cardName]['rows'][row].notes + "\n").setAttributes(noteStyle);
         }
-        else {
-          nextRow.getCell(0).insertHorizontalRule(1);
-          nextRow.getCell(0).insertParagraph(2, "  ");
-        }
+//        else {
+//          nextRow.getCell(0).insertHorizontalRule(1);
+//          nextRow.getCell(0).insertParagraph(2, "  ");
+//        }
 
         var labelStyle = {};
         labelStyle[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
