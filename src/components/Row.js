@@ -129,15 +129,6 @@ class Row extends React.Component {
     }
 
     render() {
-        let LookMLWords = /\b(access_filter(\s|,)|sql_always_where(\s|,)|required_access_grants(\s|,)|no-report-backend-errors(\s|,)|datagroups(\s|,)|datagroup_trigger(\s|,)|\._in_query(\s|,)|system__activity(\s|,)|i__looker(\s|,)|_dialect\._name(\s|,)|persist_with(\s|,)|persist_for(\s|,)|view_label(\s|,)|group_label(\s|,)|value_format(\s|,)|named_value_format(\s|,)|sql_trigger_value(\s|,))/gi
-        let styledLookMLWords = '<span class="lookml">$1</span>'
-      
-        let ports = /\b(1551(\s|,)|61616(\s|,)|22(\s|,)|443(\s|,)|587(\s|,)|9000(\s|,)|19999(\s|,)|9999(\s|,))/gi
-        let styledPorts = '<span class="port">$1</span>'
-      
-        let specialWords = /\b(mysql_secure_installation(\s|,)|utf8mb4_general_ci(\s|,)|utf8mb4(\s|,))/gi
-        let styledSpecialWords = '<span class="special">$1</span>'
-
         let markdownLinks = /\[([^\]]+)\]\(([^)]+)\)/gi
         let htmlLinks = '<a target="_blank" href="$2">$1</a>';
     
@@ -145,10 +136,7 @@ class Row extends React.Component {
         let score = ""
         let notes = ""
         let text = <span dangerouslySetInnerHTML={{__html: this.name.text
-            .replace(markdownLinks, htmlLinks)
-            .replace(LookMLWords, styledLookMLWords)
-            .replace(ports, styledPorts)
-            .replace(specialWords, styledSpecialWords)}}></span>
+            .replace(markdownLinks, htmlLinks)}}></span>
 
         switch (clicks) {
             case 1:

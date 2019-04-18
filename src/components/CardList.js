@@ -4,12 +4,17 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import Card from './Card';
+import styled from 'styled-components';
+
+const Tip = styled.span`
+  font-size: 11px;
+`;
 
 class CardList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {reviewType: 'cs'};
+    this.state = {reviewType: 'lookml'};
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -38,25 +43,24 @@ class CardList extends React.Component {
             includedCards = ['Top 10 Behaviors and Characteristics of Successful Customers'];
           break;
           case 'lookml':
-            includedCards = ['LookML Development',
-                             'LookML Project Organization',
-                             'LookML Explore Organization',
-                             'Comprehensive Project, Model & View Organization'];
+            includedCards = ['Development Process & Environment',
+                             'Views',
+                             'Explores',
+                             'Models',
+                             'Projects',
+                             'Performance',
+                             'Security',
+                             'Database Connections',
+                             'Data Pipeline'];
           break;
           case 'architecture':
             includedCards = ['Application Servers (On-Premise)',
                              'Application Database (On-Premise)',
-                             'Monitoring',
-                             'Data Security',
-                             'Data Pipeline'];
+                             'Monitoring'];
           break;
           case 'dataculture':
             includedCards = ['User Enablement',
-                             'Content Management']
-          break;
-          case 'performance':
-            includedCards = ['Database Connections',
-                             'Performance',
+                             'Content Management',
                              'Release Management']
           break;
           default:
@@ -74,8 +78,7 @@ class CardList extends React.Component {
               <option value="lookml">LookML</option>
               <option value="architecture">On-Premise Architecture</option>
               <option value="dataculture">Data Culture</option>
-              <option value="performance">Performance</option>
-            </select>
+            </select> <Tip>Tip: remove cards you&rsquo;re not interested in by clicking the X</Tip>
             <p>&nbsp;</p>
             <div>
                 {cards.map((card, index) => (
@@ -97,20 +100,24 @@ CardList.propTypes = {
 
 export const UserQuery = gql`
   query UserQuery {
-    cards (id:["TkEzzk6c" # Database Connections
-              ,"TbXzz78c" # Data Pipeline
-              ,"ckEzzkki" # Data Security
-              ,"iqKnn74T" # Application Servers (On-Premise)
+    cards (id:["iqKnn74T" # Application Servers (On-Premise)
               ,"ioEzzokT" # Application Database (On-Premise)
-              ,"ikEzzkeT" # Performance
               ,"cAB66Egi" # Monitoring
-              ,"ceXzzbRi" # LookML Development
-              ,"TqKnnjnc" # Release Management
-              ,"T5KnzGqc" # LookML Project Organization
-              ,"c8e5bg7i" # LookML Explore Organization
-              ,"iGB6RkXT" # LookML Project, Model & View Organization
-              ,"TXrjjBpc" # Content Management
+
+              ,"ceXzzbRi" # Development Process & Environment
+              ,"TLKg5Gbc" # LookML Views
+              ,"c8e5bg7i" # LookML Explores
+              ,"iGB6RkXT" # LookML Models
+              ,"T5KnzGqc" # LookML Projects
+              ,"ikEzzkeT" # Performance
+              ,"ckEzzkki" # Security
+              ,"TkEzzk6c" # Database Connections
+              ,"TbXzz78c" # Data Pipeline
+
               ,"c5KnnjRi" # User Enablement
+              ,"TqKnnjnc" # Release Management
+              ,"TXrjjBpc" # Content Management
+
               ,"inEpreBT" # Customer Success Top 10
               ]) {
       title
