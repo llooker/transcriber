@@ -95,8 +95,6 @@ function doPost(e) {
         var nextRow = tables[cardCount].appendTableRow();
         
         var score = input['cards'][cardName]['rows'][row].score
-        totalPossibleScore += 4
-        totalScore += score
 
         switch (score) {
           case 0:
@@ -123,6 +121,12 @@ function doPost(e) {
             var label = 'N/A';
             cellStyle[DocumentApp.Attribute.BACKGROUND_COLOR] = '#EEEEEE'; 
             break;
+        }
+
+        // NA lines are passed with a numeric score of 5 so we could hackily differentiate their styling but they should actually be ignored
+        if (score <= 4) {
+          totalPossibleScore += 4
+          totalScore += score
         }
 
         var markdownLinks = /\[([^\]]+)\]\(([^)]+)\)/gi

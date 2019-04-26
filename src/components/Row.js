@@ -85,7 +85,7 @@ class Row extends React.Component {
                     existingNote = window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')].notes
                 }
                 window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')] = {"notes": existingNote, score: score};
-                if (score > 6) {
+                if (score > 5) {
                     delete window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')]
                 }
                 break;
