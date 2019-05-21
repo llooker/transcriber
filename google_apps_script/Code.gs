@@ -39,12 +39,17 @@ function appendElementToDoc(appendTo, element) {
   return appendTo;
 }
 
+function sanitizeString(str){
+    str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+    return str.trim();
+}
+
 // curl -H "Content-Type: application/json" -d '{"customer":"Merrill","cards":{"LookML Development":{"rows":{"A development and staging workflow is used to promote changes":{"notes":"cat","score":1},"A defined process exists for end-users to make modeling requests":{"notes":"rat","score":2},"A defined process exists to organize and prioritize modeling requests":{"notes":"bat","score":3}}},"LookML Project Organization":{"rows":{"Separate Projects are recommended when there are disparate application teams or development groups with limited collaboration between the teams.":{"notes":"zebra","score":1},"Separate Projects are recommended when team have different deployment schedules and release cycles. Each projects must use a dedicated GIT repository.":{"notes":"donkey","score":1},"Avoid creating DEV/QA Projects on the same instance since it adds to complexity with development and deployment of LookML files and content.":{"notes":"chipmunk","score":2}}}}}' https://script.google.com/a/looker.com/macros/s/AKfycbzAAHv7EHgJRbZ5f8IqnK3IPqWDlnuUZWZTC-zIfw/exec
 function doPost(e) {
   input = JSON.parse(e.postData.contents)
-
+  customer = sanitizeString(input['customer'])
   var template = DocumentApp.openById('1qHC9rC-3GIs6S9j50OQ_Magj03g7KA8xayoWARVHeFg') // Checklists App Page Template
-  var newDoc = DocumentApp.create('Review for ' + input['customer'] + ' (' + Utilities.formatDate(new Date(), "GMT+1", "yyyy-MM-dd") + ')');
+  var newDoc = DocumentApp.create('Review for ' + customer + ' (' + Utilities.formatDate(new Date(), "GMT+1", "yyyy-MM-dd") + ')');
   var body = newDoc.getBody();
   
   var header = newDoc.addHeader();
@@ -169,8 +174,8 @@ function doPost(e) {
     cardCount++;
   }
   
-  body.editAsText().replaceText("{{ CUSTOMER }}", input['customer'])
-  footer.editAsText().replaceText("{{ CUSTOMER }}", input['customer'])
+  body.editAsText().replaceText("{{ CUSTOMER }}", customer)
+  footer.editAsText().replaceText("{{ CUSTOMER }}", customer)
 
   for (var key in links) {
     var searchResult = body.findText("LINK" + links[key][0] + "LINK");
