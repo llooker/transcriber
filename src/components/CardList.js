@@ -18,9 +18,19 @@ class CardList extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({reviewType: event.target.value});
+  updateSection(value) {
+    this.setState({reviewType: value});
     this.forceUpdate();
+  }
+
+  handleChange(event) {
+    let numCards = Object.keys(window.jsonForGoogleApps.cards).length
+    if (numCards > 0 && window.confirm("Your work will not be saved after switching sections. Proceed?")) {
+      this.updateSection(event.target.value)
+    }
+    else if (numCards === 0) {
+      this.updateSection(event.target.value)
+    }
   }
 
   render() {
