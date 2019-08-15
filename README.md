@@ -45,8 +45,6 @@ Feature Requests
     adding a 2nd column to the card containing a scoring rubric e.g.
     0-4, 0-9
 
--   Add "Save and Continue" feature using browser Local Storage
-
 -   Add a "Prepared by: [Name]" and "Evaluated On: [Date]" to footer automatically
 
 Initial User Stories
