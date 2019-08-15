@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import ls from 'local-storage'
 
 const Text = styled.div`
   border-bottom: 1px solid #e6ecf0;
@@ -64,15 +65,24 @@ class Row extends React.Component {
       this.handleClick = this.handleClick.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.state = {
-          clicks: 0, 
+          clicks: ls.get(this.name.text + '_clicks') || 0,
+          value: ls.get(this.name.text + '_notes') || '',
           score: this.props.score
         };
+
+      // Populate shadow JSON object on component load with values from localStorage
+      if (!window.jsonForGoogleApps['cards'][this.card]) {
+          window.jsonForGoogleApps['cards'][this.card] = {rows: {}}
+      }
+      if (ls.get(this.name.text + '_clicks') !== null) {
+          window.jsonForGoogleApps['cards'][this.card].rows[this.name.text] = {"notes": ls.get(this.name.text + '_notes'), score: (ls.get(this.name.text + '_clicks')-1)};
+      }
     }
 
     handleClick(e) {
         let score = this.state.clicks
         
-        // maintain a global shadow JSON object to store the user input
+        // Maintain global shadow JSON object based on user input
         let el = e.target;
         if (!el.getAttribute('data-text')) {
             el = e.target.parentElement;
@@ -87,6 +97,7 @@ class Row extends React.Component {
                 window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')] = {"notes": existingNote, score: score};
                 if (score > 5) {
                     delete window.jsonForGoogleApps['cards'][key].rows[el.getAttribute('data-text')]
+                    ls.remove(this.name.text + '_clicks')
                 }
                 break;
             }
@@ -108,6 +119,7 @@ class Row extends React.Component {
             this.setState((state, props) => ({
                 clicks: score
             }));
+            ls.set(this.name.text + '_clicks',0)
         }
         // not all states have scores associated with them
         else if (score >= 1 && score <= 4) {
@@ -115,10 +127,12 @@ class Row extends React.Component {
         }
 
         score = this.state.clicks + 1
+        ls.set(this.name.text + '_clicks',score)
     }
 
     handleChange(e) {
         this.setState({value: e.target.value});
+        ls.set(this.name.text + '_notes',e.target.value)
         let el = e.target.parentElement.previousElementSibling;
         for (var key in window.jsonForGoogleApps['cards']) {
             if (window.jsonForGoogleApps['cards'].hasOwnProperty(key) && key === this.card) {

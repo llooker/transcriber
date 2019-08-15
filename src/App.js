@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CardList from './components/CardList';
-import SaveButton from './components/SaveButton';
+import ActionButtons from './components/ActionButtons';
 import logo from './logo.svg';
 import './App.css';
 
@@ -28,7 +28,7 @@ class App extends Component {
           <div className="App-User">
             <CardList />
           </div>
-          <SaveButton />
+          <ActionButtons />
         </div>
       </ApolloProvider>
     );

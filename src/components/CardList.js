@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import styled from 'styled-components';
+import ls from 'local-storage'
 
 const Tip = styled.span`
   font-size: 11px;
@@ -14,23 +15,14 @@ class CardList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {reviewType: 'lookml'};
+    this.state = {reviewType: (ls.get('reviewType') == null ? 'lookml' : ls.get('reviewType'))};
     this.handleChange = this.handleChange.bind(this);
   }
 
-  updateSection(value) {
-    this.setState({reviewType: value});
-    this.forceUpdate();
-  }
-
   handleChange(event) {
-    let numCards = Object.keys(window.jsonForGoogleApps.cards).length
-    if (numCards > 0 && window.confirm("Your work will not be saved after switching sections. Proceed?")) {
-      this.updateSection(event.target.value)
-    }
-    else if (numCards === 0) {
-      this.updateSection(event.target.value)
-    }
+    this.setState({reviewType: event.target.value});
+    ls.set('reviewType', event.target.value)
+    this.forceUpdate();
   }
 
   render() {

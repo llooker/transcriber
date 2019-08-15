@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Row from './Row';
+import ls from 'local-storage'
 
 const Div = styled.div`
   margin-top: 10px;
@@ -49,10 +50,10 @@ class Card extends React.Component {
     super();
     this.card = card;
     this.state = {
-      isHidden: true,
+      isHidden: (ls.get(this.card.title + '_isHidden') == null ? true : ls.get(this.card.title + '_isHidden')),
       isRemoved: false,
-      rowScores: {},
-      totalScore: 0
+      rowScores: ls.get(this.card.title + '_rowScores') || {},
+      totalScore: ls.get(this.card.title + '_totalScores') || 0
     }
     this.toggleHidden = this.toggleHidden.bind(this);
     this.remove = this.remove.bind(this);
@@ -61,9 +62,11 @@ class Card extends React.Component {
   }
 
   toggleHidden () {
+    const hiddenState = !this.state.isHidden
     this.setState({
-      isHidden: !this.state.isHidden
+      isHidden: hiddenState
     })
+    ls.set(this.card.title + '_isHidden',hiddenState)
   }
 
   remove() {
@@ -77,6 +80,12 @@ class Card extends React.Component {
     return Number(a) + Number(b)
   }
 
+  componentDidMount() {
+    this.setState({
+      totalScore: ls.get(this.card.title + '_totalScore'),
+    });
+  }
+
   updateScore (value, idx) {
     let newScores = Object.assign({}, this.state.rowScores)
     newScores[idx] = value
@@ -85,6 +94,8 @@ class Card extends React.Component {
       rowScores: newScores,
       totalScore: scoreSum
     })
+    ls.set(this.card.title + '_rowScores',newScores)
+    ls.set(this.card.title + '_totalScore',scoreSum)
   }
   
   render() {
