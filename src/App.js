@@ -23,7 +23,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h2>
               <div className="tooltip">Transcriber<span className="tooltiptext">Transcriber <span className="underline">r</span>eproduces <span className="underline">a</span>nalytical, <span className="underline">n</span>eat, similarly-comprehensive reviews, incorporating #bestpractices every rendition</span></div>
-              &nbsp;helps you conduct different types of reviews and audits<br/>and is powered by content from this <a target="_blank" rel="noopener noreferrer" href="https://app.getguru.com/boards/yiKXnGpi/Transcriber">Guru board</a></h2>
+              &nbsp;helps you conduct different types of reviews and audits<br/>and is powered by content from this <a target="_blank" rel="noopener noreferrer" href="https://app.getguru.com/boards/yiKXnGpi/Transcriber">Guru board</a>&nbsp;&nbsp;&nbsp;<span className="version">v0.1.1</span></h2>
           </div>
           <div className="App-User">
             <CardList />

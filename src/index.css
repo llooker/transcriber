@@ -23,3 +23,10 @@ span.special {
   color: #000;
   font-weight: bold;
 }
+
+span.version {
+  font-family: 'Source Code Pro', monospace;
+  color: #000;
+  font-weight: bold;
+  font-size: 10px;
+}
