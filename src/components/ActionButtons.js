@@ -48,7 +48,7 @@ class ActionButtons extends React.Component {
           body: JSON.stringify(window.jsonForGoogleApps)
       }).then(function(response) {
           console.log(response)
-          if (confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
+          if (window.confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
             localStorage.clear();
             window.location.reload();      
           }
