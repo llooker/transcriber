@@ -48,7 +48,10 @@ class ActionButtons extends React.Component {
           body: JSON.stringify(window.jsonForGoogleApps)
       }).then(function(response) {
           console.log(response)
-          alert('Success, check the Transcriber Output folder.');
+          if (confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
+            localStorage.clear();
+            window.location.reload();      
+          }
       }); 
     }, reviewType.options.length * pause)
   }
