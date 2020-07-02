@@ -44,6 +44,9 @@ class CardList extends React.Component {
           case 'cs':
             includedCards = ['Top 10 Behaviors and Characteristics of Successful Customers'];
           break;
+          case 'pbl':
+            includedCards = ['Client-Side Performance'];
+          break;
           case 'lookml':
             includedCards = ['Development Process & Environment',
                              'Views',
@@ -80,6 +83,7 @@ class CardList extends React.Component {
               <option value="lookml">LookML</option>
               <option value="architecture">On-Premise Architecture</option>
               <option value="dataculture">Data Culture</option>
+              <option value="pbl">PBL</option>
             </select> <Tip>Tip: remove cards you&rsquo;re not interested in by clicking the X</Tip>
             <p>&nbsp;</p>
             <div>
@@ -121,6 +125,8 @@ export const UserQuery = gql`
               ,"TXrjjBpc" # Content Management
 
               ,"inEpreBT" # Customer Success Top 10
+
+              ,"cbbeybKi" # Client-Side Performance
               ]) {
       title
       rows {
