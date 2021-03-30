@@ -38,7 +38,7 @@ class ActionButtons extends React.Component {
       console.log(JSON.stringify(window.jsonForGoogleApps))
       window.jsonForGoogleApps.customer = prompt("Who is the customer?");
 
-      let googleScriptsEndpoint = 'https://script.google.com/a/looker.com/macros/s/AKfycbzAAHv7EHgJRbZ5f8IqnK3IPqWDlnuUZWZTC-zIfw/exec';
+      let googleScriptsEndpoint = 'https://script.google.com/a/macros/google.com/s/AKfycbzSUxwD_J16kVpdWdjr_R-GsJklbnmv8buAho5rF9eR-GKS4yO3AiC_QDvf6gkk_NDY/exec';
       fetch(googleScriptsEndpoint, {
           mode: 'no-cors',
           headers: {
