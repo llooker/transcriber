@@ -1,3 +1,6 @@
+> :warning: **This tool no longer works because it can't publish Google Docs to the Google-owned Google Drive**: Sorry about this! It is fixable, if someone wanted to build in OAuth authentication so that you authenticate using your Google user.
+
+
 What is this?
 ------------
 
