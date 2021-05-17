@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CardList from "./components/CardList";
 import ActionButtons from "./components/ActionButtons";
-import { logoImg } from "./components/Constants";
+import { logoImg, urls } from "./components/Constants";
 import "./App.css";
 
 import { ApolloClient } from "apollo-client";
@@ -38,7 +38,7 @@ class App extends Component {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.getguru.com/boards/yiKXnGpi/Transcriber"
+                href={urls.guru}
               >
                 Guru board
               </a>

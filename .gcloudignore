@@ -18,3 +18,5 @@ node_modules/
 
 # Development dependencies
 src/
+
+example.app.yaml

@@ -109,7 +109,6 @@ export const UserQuery = gql`
     cards (id:["iqKnn74T" # Application Servers (On-Premise)
               ,"ioEzzokT" # Application Database (On-Premise)
               ,"cAB66Egi" # Monitoring
-
               ,"ceXzzbRi" # Development Process & Environment
               ,"TLKg5Gbc" # LookML Views
               ,"c8e5bg7i" # LookML Explores
@@ -119,13 +118,10 @@ export const UserQuery = gql`
               ,"ckEzzkki" # Security
               ,"TkEzzk6c" # Database Connections
               ,"TbXzz78c" # Data Pipeline
-
               ,"c5KnnjRi" # User Enablement
               ,"TqKnnjnc" # Release Management
               ,"TXrjjBpc" # Content Management
-
               ,"inEpreBT" # Customer Success Top 10
-
               ,"cbbeybKi" # Client-Side Performance
               ]) {
       title

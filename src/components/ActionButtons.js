@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { googleScriptsEndpoint, gDriveLocation } from './Constants'
+import { urls } from './Constants'
 
 const Clear = styled.span`
   padding-left: 100px;
@@ -39,7 +39,7 @@ class ActionButtons extends React.Component {
       console.log(JSON.stringify(window.jsonForGoogleApps))
       window.jsonForGoogleApps.customer = prompt("Who is the customer?");
 
-      fetch(googleScriptsEndpoint, {
+      fetch(urls.googleScripts, {
           mode: 'no-cors',
           headers: {
               'Access-Control-Allow-Origin':'*'
@@ -60,7 +60,7 @@ class ActionButtons extends React.Component {
     return (
         <div>
             <input type="button" onClick={this.save} value="Save to Google Doc"/>&nbsp;&nbsp;
-            <a target="_blank" rel="noopener noreferrer" href={gDriveLocation}>Transcriber Output</a>
+            <a target="_blank" rel="noopener noreferrer" href={urls.gDrive}>Transcriber Output</a>
             <Clear><input type="button" onClick={this.clear} value="Clear"/></Clear>
             <p>&nbsp;</p>
         </div>
