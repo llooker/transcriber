@@ -9,4 +9,4 @@ handlers:
   static_files: build/index.html
   upload: build/index.html
 env_variables:
-  REACT_APP_GRAPHQL_ENDPOINT: "foo.com/bar"
+  REACT_APP_GRAPHQL_ENDPOINT: "foo.com/bar" # Change this to middleware endpoint
