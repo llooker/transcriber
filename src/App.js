@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CardList from "./components/CardList";
 import ActionButtons from "./components/ActionButtons";
 import { logoImg, urls } from "./components/Constants";
-import { Auth } from "./components/Auth";
+import { Auth, AuthContextProvider, useAuth } from "./components/Auth";
 import "./App.css";
 
 import { ApolloClient } from "apollo-client";
@@ -15,18 +15,9 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      token: undefined
-    };
-  }
-  
-  render() {
-    if (!this.state.token) {
-      return (<Auth setToken={(t) => this.setState({token: t})}/>)
-    } else {
+const AppInner = () => {
+  const { authProps } = useAuth()
+  if (! authProps?.token?.access_token) {return <Auth/>}
     return (
       <ApolloProvider client={client}>
         <div className="App">
@@ -59,12 +50,16 @@ class App extends Component {
           <div className="App-User">
             <CardList />
           </div>
-          <ActionButtons token={this.state.token}/>
+          <ActionButtons/>
         </div>
-      </ApolloProvider> 
+      </ApolloProvider>
     );
-    }
-  }
+}
+
+const App = () => {
+  return (
+    <AuthContextProvider><AppInner/></AuthContextProvider>
+  )
 }
 
 export default App;

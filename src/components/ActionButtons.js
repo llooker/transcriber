@@ -1,41 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAuth } from './Auth';
 import { urls } from './Constants'
 
 const Clear = styled.span`
   padding-left: 100px;
 `;
 
-class ActionButtons extends React.Component {
+const ActionButtons = () => {
+  const { authProps } = useAuth()
+  console.log(authProps)
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      token: props.token
-    }
-    this.save = this.save.bind(this);
-  }
-
-  clear() {
+  const clear = () => {
     if (window.confirm("Are you sure you want to start over?")) {
       localStorage.clear();
       window.location.reload();
     }
   }
 
-  dispatchChange(reviewType, i) {
+  const dispatchChange = (reviewType, i) => {
     reviewType.value = reviewType.options[i].value
     reviewType.dispatchEvent(new Event('change', { bubbles: true, cancelable: false}));
   }
 
-  save(token=this.state.token) {
+  const save = () => {
     // Force the shadow JSON object to get built for each section if the user has just refreshed the page
     let reviewType = window.document.getElementById('reviewType')
     let pause = 100
     for (let i = 0; i < reviewType.options.length; i++){
       // We need to let React have enough time to render the components which will in turn build the JSON object
       // Advance through the sections one-by-one and pause for 100ms in between:
-      window.setTimeout(this.dispatchChange.bind(null, reviewType, i), pause * i)
+      window.setTimeout(dispatchChange(null, reviewType, i), pause * i)
     }
 
     window.setTimeout(function() {
@@ -46,7 +41,7 @@ class ActionButtons extends React.Component {
           mode: 'no-cors',
           headers: {
               'Access-Control-Allow-Origin':'*',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${authProps?.token?.access_token}`
           },
           method: 'post',
           body: JSON.stringify(window.jsonForGoogleApps)
@@ -59,17 +54,14 @@ class ActionButtons extends React.Component {
       }); 
     }, reviewType.options.length * pause)
   }
-
-  render() {
     return (
         <div>
-            <input type="button" onClick={this.save} value="Save to Google Doc"/>&nbsp;&nbsp;
+            <input type="button" onClick={save} value="Save to Google Doc"/>&nbsp;&nbsp;
             <a target="_blank" rel="noopener noreferrer" href={urls.gDrive}>Transcriber Output</a>
-            <Clear><input type="button" onClick={this.clear} value="Clear"/></Clear>
+            <Clear><input type="button" onClick={clear} value="Clear"/></Clear>
             <p>&nbsp;</p>
         </div>
     )
-  }
 }
 
 export default ActionButtons;
