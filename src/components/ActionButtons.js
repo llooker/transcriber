@@ -8,8 +8,11 @@ const Clear = styled.span`
 
 class ActionButtons extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      token: props.token
+    }
     this.save = this.save.bind(this);
   }
 
@@ -25,7 +28,7 @@ class ActionButtons extends React.Component {
     reviewType.dispatchEvent(new Event('change', { bubbles: true, cancelable: false}));
   }
 
-  save() {
+  save(token=this.state.token) {
     // Force the shadow JSON object to get built for each section if the user has just refreshed the page
     let reviewType = window.document.getElementById('reviewType')
     let pause = 100
@@ -42,7 +45,8 @@ class ActionButtons extends React.Component {
       fetch(urls.googleScripts, {
           mode: 'no-cors',
           headers: {
-              'Access-Control-Allow-Origin':'*'
+              'Access-Control-Allow-Origin':'*',
+              'Authorization': `Bearer ${token}`
           },
           method: 'post',
           body: JSON.stringify(window.jsonForGoogleApps)

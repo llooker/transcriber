@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CardList from "./components/CardList";
 import ActionButtons from "./components/ActionButtons";
 import { logoImg, urls } from "./components/Constants";
+import { Auth } from "./components/Auth";
 import "./App.css";
 
 import { ApolloClient } from "apollo-client";
@@ -10,12 +11,22 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_ENDPOINT }),
+  link: new HttpLink({ uri: urls.graphQL }),
   cache: new InMemoryCache(),
 });
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      token: undefined
+    };
+  }
+  
   render() {
+    if (!this.state.token) {
+      return (<Auth setToken={(t) => this.setState({token: t})}/>)
+    } else {
     return (
       <ApolloProvider client={client}>
         <div className="App">
@@ -48,10 +59,11 @@ class App extends Component {
           <div className="App-User">
             <CardList />
           </div>
-          <ActionButtons />
+          <ActionButtons token={this.state.token}/>
         </div>
-      </ApolloProvider>
+      </ApolloProvider> 
     );
+    }
   }
 }
 
