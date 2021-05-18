@@ -30,7 +30,7 @@ const ActionButtons = () => {
     for (let i = 0; i < reviewType.options.length; i++){
       // We need to let React have enough time to render the components which will in turn build the JSON object
       // Advance through the sections one-by-one and pause for 100ms in between:
-      window.setTimeout(dispatchChange(null, reviewType, i), pause * i)
+      window.setTimeout(dispatchChange.bind(null, reviewType, i), pause * i)
     }
 
     window.setTimeout(function() {
