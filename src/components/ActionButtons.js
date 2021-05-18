@@ -47,9 +47,14 @@ const ActionButtons = () => {
           body: JSON.stringify(window.jsonForGoogleApps)
       }).then(function(response) {
           console.log(response)
-          if (window.confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
-            localStorage.clear();
-            window.location.reload();      
+          if (response.ok) {
+            if (window.confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
+              localStorage.clear();
+              window.location.reload();      
+            }
+          } 
+          else {
+            window.alert('Problem communicating with Google Drive! Check the console')
           }
       }); 
     }, reviewType.options.length * pause)

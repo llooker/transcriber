@@ -8,6 +8,10 @@ const Text = styled.div`
   padding: 15px 15px;
   font-size: 14px;
   line-height: 20px;
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(245,245,245)
+  }
 `;
 
 const Score0 = styled.span`

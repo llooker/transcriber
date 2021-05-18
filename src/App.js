@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import CardList from "./components/CardList";
 import ActionButtons from "./components/ActionButtons";
 import { logoImg, urls } from "./components/Constants";
