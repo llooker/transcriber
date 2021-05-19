@@ -82,6 +82,5 @@ Initial User Stories
 * Replace Guru
 * Make Oauth cookie-based
   * Check best practices (e.g. server side validation) with Nick
-* Refactor / simplify code here
-  * How to persist state if different report type chosen
-  * Why is outputting not working?
+## Bugs
+  * Row score state is out of sync
