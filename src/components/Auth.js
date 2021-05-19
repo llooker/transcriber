@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
-import styled from 'styled-components'
+import React, { useContext } from 'react'
+import { AppContext } from './AppContext'
 import { GoogleLogin } from 'react-google-login';
+import styled from 'styled-components'
 
 const AuthCard = styled.div`
   margin: auto;
@@ -13,40 +14,14 @@ const AuthCard = styled.div`
   box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.3);
 `;
 
-const clientID = process.env.REACT_APP_GCLIENT_ID;
-
-export const AuthContext = createContext({authProps: undefined, logIn: () => {}, logOut: () => {}})
-
-export const AuthContextProvider = (props) => {
-    const [authProps, setAuthProps] = useState(undefined)
-    const logIn = (res) => {
-        setAuthProps({token: {...res.tokenObj}, user: {...res.profileObj}})
-    }
-    const logOut = (res) => {
-        console.error(`Auth error: ${res}`)
-        setAuthProps(undefined);
-    }
-
-    const contextValue = {authProps, logIn, logOut}
-    return (
-        <AuthContext.Provider value={contextValue}>
-            {props.children}
-        </AuthContext.Provider>
-    )
-}
-
-export const useAuth = () => {
-    const { authProps, logIn, logOut } = useContext(AuthContext);
-    return { authProps, logIn, logOut };
-}
 
 export const Auth = () => {
-    const { logIn, logOut } = useAuth()
+    const { logIn, logOut } = useContext(AppContext)
     return (
         <AuthCard>
             <h5 style={{marginBottom:'10px'}}>Authenticate with Google to view this Content</h5>
             <GoogleLogin
-                clientId={clientID}
+                clientId={process.env.REACT_APP_GCLIENT_ID}
                 buttonText="Login with Google"
                 onSuccess={logIn}
                 onFailure={logOut}
@@ -55,4 +30,3 @@ export const Auth = () => {
         </AuthCard>
     )
 }
-  

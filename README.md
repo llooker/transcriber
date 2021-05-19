@@ -73,3 +73,13 @@ Initial User Stories
     deliverable template to share with my customer, this saves
     time, improves the quality of our deliverables, and encourages
     consistency among team members
+
+---
+
+## TOM TO DO
+* Figure out 401 problem (App script migrate to new project?)
+* Replace App Script with Native Gcloud SDKs in JS?
+* Replace Guru
+* Make Oauth cookie-based
+  * Check best practices (e.g. server side validation) with Nick
+* Refactor / simplify code here

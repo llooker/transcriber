@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import CardList from "./components/CardList";
 import ActionButtons from "./components/ActionButtons";
 import { logoImg, urls } from "./components/Constants";
-import { Auth, AuthContextProvider, useAuth } from "./components/Auth";
+import { AppContext, AppContextProvider } from "./components/AppContext";
+import { Auth } from './components/Auth'
 import "./App.css";
 
 import { ApolloClient } from "apollo-client";
@@ -16,7 +17,7 @@ const client = new ApolloClient({
 });
 
 const AppInner = () => {
-  const { authProps } = useAuth()
+  const { authProps } = useContext(AppContext)
   if (! authProps?.token?.access_token) {return <Auth/>}
     return (
       <ApolloProvider client={client}>
@@ -29,22 +30,19 @@ const AppInner = () => {
                 <span className="tooltiptext">
                   Transcriber <span className="underline">r</span>eproduces{" "}
                   <span className="underline">a</span>nalytical,{" "}
-                  <span className="underline">n</span>eat,
-                  similarly-comprehensive reviews, incorporating #bestpractices
-                  every rendition
+                  <span className="underline">n</span>eat,{" "}
+                  <span className="underline">s</span>imilarly{"-"}
+                  <span className="underline">c</span>omprehensive{" "}
+                  <span className="underline">r</span>eviews,{" "}
+                  <span className="underline">i</span>ncorporating{" #"}
+                  <span className="underline">b</span>estpractices{" "}
+                  <span className="underline">e</span>very{" "}
+                  <span className="underline">r</span>endition
                 </span>
               </div>
-              &nbsp;helps you conduct different types of reviews and audits
-              <br />
+              &nbsp;helps you conduct different types of reviews and audits<br />
               and is powered by content from this{" "}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={urls.guru}
-              >
-                Guru board
-              </a>
-              &nbsp;&nbsp;&nbsp;<span className="version">v0.1.5</span>
+              <a target="_blank" rel="noopener noreferrer" href={urls.guru}>Guru board</a>&nbsp;&nbsp;&nbsp;<span className="version">v0.1.5</span>
             </h2>
           </div>
           <div className="App-User">
@@ -58,7 +56,7 @@ const AppInner = () => {
 
 const App = () => {
   return (
-    <AuthContextProvider><AppInner/></AuthContextProvider>
+    <AppContextProvider><AppInner/></AppContextProvider>
   )
 }
 

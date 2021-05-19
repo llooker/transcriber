@@ -1,15 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useAuth } from './Auth';
+import React, { useContext } from 'react';
+import { AppContext } from './AppContext';
 import { urls } from './Constants'
+import styled from 'styled-components';
 
 const Clear = styled.span`
   padding-left: 100px;
 `;
 
 const ActionButtons = () => {
-  const { authProps } = useAuth()
-  console.log(authProps)
+  const { authProps, setCustomerState, resetState, generateScores } = useContext(AppContext)
 
   const clear = () => {
     if (window.confirm("Are you sure you want to start over?")) {
@@ -34,8 +33,8 @@ const ActionButtons = () => {
     }
 
     window.setTimeout(function() {
-      console.log(JSON.stringify(window.jsonForGoogleApps))
-      window.jsonForGoogleApps.customer = prompt("Who is the customer?");
+      console.log(generateScores())
+      setCustomerState(prompt("Who is the customer?"))
 
       fetch(urls.googleScripts, {
           mode: 'no-cors',
@@ -44,12 +43,13 @@ const ActionButtons = () => {
               'Authorization': `Bearer ${authProps?.token?.access_token}`
           },
           method: 'post',
-          body: JSON.stringify(window.jsonForGoogleApps)
-      }).then(function(response) {
-          console.log(response)
-          if (response.ok) {
+          body: generateScores()
+      }).then((res) => {
+          console.log(res)
+          if (res.ok) {
             if (window.confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
               localStorage.clear();
+              // resetState() // Unneccessary
               window.location.reload();      
             }
           } 
