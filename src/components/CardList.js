@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GuruQuery, cardChoices } from "./Constants";
 import PropTypes from "prop-types";

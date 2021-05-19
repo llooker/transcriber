@@ -8,32 +8,18 @@ const Clear = styled.span`
 `;
 
 const ActionButtons = () => {
-  const { authProps, setCustomerState, resetState, generateScores } = useContext(AppContext)
-
+  const { reviewType, authProps, setCustomerState, generateScores } = useContext(AppContext)
   const clear = () => {
     if (window.confirm("Are you sure you want to start over?")) {
       localStorage.clear();
       window.location.reload();
     }
   }
-
-  const dispatchChange = (reviewType, i) => {
-    reviewType.value = reviewType.options[i].value
-    reviewType.dispatchEvent(new Event('change', { bubbles: true, cancelable: false}));
-  }
-
   const save = () => {
-    // Force the shadow JSON object to get built for each section if the user has just refreshed the page
-    let reviewType = window.document.getElementById('reviewType')
     let pause = 100
-    for (let i = 0; i < reviewType.options.length; i++){
-      // We need to let React have enough time to render the components which will in turn build the JSON object
-      // Advance through the sections one-by-one and pause for 100ms in between:
-      window.setTimeout(dispatchChange.bind(null, reviewType, i), pause * i)
-    }
-
     window.setTimeout(function() {
-      console.log(generateScores())
+      let scores = generateScores()
+      console.log(scores)
       setCustomerState(prompt("Who is the customer?"))
 
       fetch(urls.googleScripts, {
@@ -43,13 +29,12 @@ const ActionButtons = () => {
               'Authorization': `Bearer ${authProps?.token?.access_token}`
           },
           method: 'post',
-          body: generateScores()
+          body: scores
       }).then((res) => {
           console.log(res)
           if (res.ok) {
             if (window.confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
               localStorage.clear();
-              // resetState() // Unneccessary
               window.location.reload();      
             }
           } 

@@ -39,7 +39,7 @@ const Row = (props) => {
 
   const setScore = (val) => {
     setClicks(val)
-    props.updateScore(val)
+    props.calcScores(cardState[props.card].rows)
     updateRowScore(props.card, props.name.text, val)
   }
 
@@ -85,7 +85,7 @@ const Row = (props) => {
           data-text={props.name.text}
           onClick={handleClick}
           key={props.name.index}
-          style={(clicks == 6) ? {backgroundColor: '#eee', textDecoration: 'line-through'} : {}}
+          style={(clicks === 6) ? {backgroundColor: '#eee', textDecoration: 'line-through'} : {}}
         >
           {displayScore()} {text}
         </Text>

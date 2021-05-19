@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { AppContext } from './AppContext';
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -45,33 +45,34 @@ const Super = styled.span`
 `;
 
 export const Card = (props) => {
+  const { cardState } = useContext(AppContext)
   const [isHidden, setIsHidden] = useState(false)
   const [isRemoved, setIsRemoved] = useState(false);
-  const [rowScores, setRowScores] = useState({});
-  const [totalScore, setTotalScore] = useState(0);
-  // const [isExpanded, setIsExpanded] = useState(false); // TODO
+  const [score, setScore] = useState(0);
   const toggleHidden = () => {setIsHidden(!isHidden)};
+
+  useEffect(() => {
+    if (cardState[props.card].rows) {
+      calcScores(cardState[props.card].rows)
+    }
+  }, [cardState[props.card].rows])
+
+  const calcScores = (rows) => {
+    let total = Object.values(rows)
+      .filter(v => (v.score > 0 && v.score < 6))
+      .map(s => (s.score - 1))
+      .reduce((a,b) => a + b, 0)
+    setScore(total)
+  }
 
   const remove = () => {
     setIsRemoved(true);
     setIsHidden(true);
   };
 
-  const addScores = (a, b) => {
-    return Number(a) + Number(b);
-  };
-
-  const updateScore = (value, idx) => {
-    let newScores = Object.assign({}, rowScores);
-    newScores[idx] = value;
-    const scoreSum = Object.values(newScores).reduce(addScores, 0);
-    setRowScores(newScores);
-    setTotalScore(scoreSum);
-  };
-
   let title = props.card.title;
   let score_percent = Math.round(
-    (totalScore / (props.card.rows.length * 4)) * 100
+    (score / (props.card.rows.length * 4)) * 100
   );
   if (!isHidden) {
     return (
@@ -82,18 +83,16 @@ export const Card = (props) => {
             <Score>
               {score_percent}%{" "}
               <Super>
-                ({totalScore}/{props.card.rows.length * 4})
+                ({score}/{props.card.rows.length * 4})
               </Super>
             </Score>
           </Title>
-          {props.card.rows.map((name, index) => (
+          {props.card.rows.map((name, ix) => (
             <Row
-              key={index}
+              key={ix}
               card={title}
               name={name}
-              score={rowScores[index]}
-              idx={index}
-              updateScore={updateScore}
+              calcScores={calcScores}
             ></Row>
           ))}
         </Container>

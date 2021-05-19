@@ -31,8 +31,11 @@ export const AppContextProvider = (props) => {
             if (hasScore(cardState, k)) {
                 tmp[k] = {rows: {}}
                 Object.keys(cardState[k].rows).forEach(r => {
-                    if(cardState[k].rows[r].score > 0) {
-                        tmp[k].rows[r] = {...cardState[k].rows[r]}
+                    let tmpScore = cardState[k].rows[r].score
+                    if(tmpScore > 0 && tmpScore < 6) {
+                        let tmpRow = {...cardState[k].rows[r]}
+                        tmpRow.score -=1
+                        tmp[k].rows[r] = {...tmpRow}
                     }
                 })
             }
