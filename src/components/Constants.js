@@ -9,7 +9,7 @@ export const urls = {
   graphQL: "https://yu3gypcoyi.execute-api.us-west-2.amazonaws.com/dev/graphql",
 };
 
-export const UserQuery = gql`
+export const GuruQuery = gql`
   query UserQuery {
     cards(
       id: [

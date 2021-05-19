@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
-import CardList from "./components/CardList";
+import { CardList } from "./components/CardList";
 import ActionButtons from "./components/ActionButtons";
 import { logoImg, urls } from "./components/Constants";
 import { AppContext, AppContextProvider } from "./components/AppContext";
 import { Auth } from './components/Auth'
 import "./App.css";
 
-import { ApolloClient } from "apollo-client";
-import { ApolloProvider } from "react-apollo";
+import { ApolloClient, ApolloProvider } from "@apollo/client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 

@@ -21,11 +21,12 @@ export const AppContextProvider = (props) => {
     }
 
     const hasScore = (obj, k) => {
-        return Math.sum(Object.values(obj[k].rows).map(v => v.score)) > 0
+        return Object.values(obj[k].rows).map(v => v.score)
+        .reduce((a,b) => a + b, 0) > 0
     }
 
     const generateScores = () => {
-        let tmp
+        let tmp = {}
         Object.keys(cardState).forEach(k => {
             if (hasScore(cardState, k)) {
                 tmp[k] = {rows: {}}
@@ -36,16 +37,19 @@ export const AppContextProvider = (props) => {
                 })
             }
         })
-        return JSON.stringify({cards: tmp, customer: customerState})
+        return JSON.stringify({cards: {...tmp}, customer: customerState})
     }
 
     const setupState = (cards) => {
+        let tmp = {}
         cards.forEach(c => {
-            cardState[c.title] = {rows: {}}
+            let rowtmp = {}
             c.rows.forEach(r => {
-                cardState[c.title]['rows'][r.text] = {notes: '', score: 0}
+                rowtmp[r.text] = {notes: '', score: 0}
             })
+            tmp[c.title] = {rows: rowtmp}
         })
+        setCardState({...tmp})
     }
 
     const updateRowScore = (cardKey, rowKey, val) => {

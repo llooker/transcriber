@@ -44,7 +44,7 @@ const Super = styled.span`
   padding-left: 10px;
 `;
 
-const Card = (props) => {
+export const Card = (props) => {
   const [isHidden, setIsHidden] = useState(false)
   const [isRemoved, setIsRemoved] = useState(false);
   const [rowScores, setRowScores] = useState({});
@@ -103,9 +103,7 @@ const Card = (props) => {
     return (
       <Div>
         <Container>
-          <Remove onClick={remove} alt="Remove">
-            x
-          </Remove>
+          <Remove onClick={remove} alt="Remove">x</Remove>
           <Title onClick={toggleHidden}>
             <input type="checkbox" readOnly checked={!isHidden} /> {title}
           </Title>
@@ -121,4 +119,3 @@ Card.propTypes = {
   card: PropTypes.any.isRequired, // eslint-disable-line
 };
 
-export default Card;

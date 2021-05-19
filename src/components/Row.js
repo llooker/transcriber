@@ -45,9 +45,11 @@ const Row = (props) => {
   const [displayNotes, setDisplayNotes] = useState(null); 
 
   useEffect(() => {
-    setDisplayNotes(cardState[props.card].rows[props.name.text].notes)
-    setClicks(cardState[props.card].rows[props.name.text].score)
-  }, [])
+    if (cardState[props.card]) {
+      setDisplayNotes(cardState[props.card].rows[props.name.text].notes)
+      setClicks(cardState[props.card].rows[props.name.text].score)
+    }
+  }, [cardState[props.card]])
 
   const setScore = (val) => {
     setClicks(val)
