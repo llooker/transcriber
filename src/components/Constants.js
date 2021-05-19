@@ -42,6 +42,15 @@ export const GuruQuery = gql`
   }
 `;
 
+export const clickSettings = {
+  1: {color: '#ff4600', icon: '0️⃣'},
+  2: {color: '#ff8c00', icon: '1️⃣'},
+  3: {color: '#ffd300', icon: '2️⃣'},
+  4: {color: '#e5ff00', icon: '3️⃣'},
+  5: {color: '#9fff00', icon: '4️⃣'},
+}
+
+
 export const cardChoices = {
   cs: {
     label: "Customer Success",

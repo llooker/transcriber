@@ -10,9 +10,8 @@ const Tip = styled.span`
   font-size: 11px;
 `;
 export const CardList = () => {
-  const { cardState, reviewType, setReviewType, setupState } = useContext(AppContext);
+  const { reviewType, setReviewType, setupState } = useContext(AppContext);
   const { loading, error, data } = useQuery(GuruQuery)
-  // const [_ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     if (data) {
@@ -22,7 +21,6 @@ export const CardList = () => {
 
   const handleChange = (e) => {
     setReviewType(e.target.value);
-    // forceUpdate(); // necessary?
   };
   
   if (error) {
