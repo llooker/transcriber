@@ -56,7 +56,8 @@ export const AppContextProvider = (props) => {
         .reduce((a,b) => a + b, 0) > 0
     }
 
-    const generateScores = () => {
+    const generateScores = (customer_name) => {
+        setCustomerState(customer_name)
         let tmp = {}
         Object.keys(cardState).forEach(k => {
             if (hasScore(cardState, k)) {
@@ -102,14 +103,10 @@ export const AppContextProvider = (props) => {
         shouldLogIn,
         handleOAuthLogIn,
         handleOauthLogOut,
-        customerState,
-        setCustomerState,
         cardState,
-        setCardState,
         reviewType,
         setReviewType,
-        resetState,
-        generateScores: useMemo(() => generateScores, [cardState]),
+        generateScores: useMemo(() => generateScores, [cardState, customerState]),
         updateRowScore,
         updateRowNotes,
         setupState: useMemo(() => setupState, [cardState])

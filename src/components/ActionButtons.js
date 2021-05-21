@@ -9,23 +9,21 @@ const Clear = styled.span`
 `;
 
 const ActionButtons = () => {
-  const { setCustomerState, generateScores } = useContext(AppContext)
+  const { generateScores } = useContext(AppContext)
   const clear = () => {
     if (window.confirm("Are you sure you want to start over?")) {
       window.location.reload();
     }
   }
 
-  const askCustomer = async () => {
+  const generateForCustomer = async () => {
     let cust = await prompt("Who is the customer?")
-    setCustomerState(cust)
+    return generateScores(cust)
   }
 
   const save = async () => {
-    askCustomer().then(() => {
-      let scores = generateScores()
-      // console.log(scores)     
-      fetch(urls.googleScripts, {
+    let scores = await generateForCustomer()
+    fetch(urls.googleScripts, {
         mode: 'no-cors',
         headers: {
           'Access-Control-Allow-Origin':'*',
@@ -45,8 +43,6 @@ const ActionButtons = () => {
         }
       }); 
     }
-    )
-  }
     return (
         <div>
             <input type="button" onClick={save} value="Save to Google Doc"/>&nbsp;&nbsp;
