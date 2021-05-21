@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CardList } from "./components/CardList";
 import ActionButtons from "./components/ActionButtons";
 import { logoImg, urls } from "./components/Constants";
 import { AppContext, AppContextProvider } from "./components/AppContext";
 import { Auth } from './components/Auth'
+import Cookie from 'js-cookie'
 import "./App.css";
 
 import { ApolloClient, ApolloProvider } from "@apollo/client";
@@ -16,9 +17,14 @@ const client = new ApolloClient({
 });
 
 const AppInner = () => {
-  const { authProps } = useContext(AppContext)
-  if (! authProps?.token?.access_token) {return <Auth/>}
-    return (
+  const { shouldLogIn } = useContext(AppContext)
+  const [loggedIn, setLoggedIn] = useState(false)
+  
+  useEffect(() => {
+    setLoggedIn(!shouldLogIn())
+  }, [Cookie.get('gtoken')])
+  
+  {return loggedIn ? (
       <ApolloProvider client={client}>
         <div className="App">
           <div className="App-header">
@@ -50,7 +56,8 @@ const AppInner = () => {
           <ActionButtons/>
         </div>
       </ApolloProvider>
-    );
+    ) : <Auth/> 
+  }
 }
 
 const App = () => {

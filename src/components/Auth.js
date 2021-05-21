@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { AppContext } from './AppContext'
 import { GoogleLogin } from 'react-google-login';
 import styled from 'styled-components'
+import { authScopes } from './Constants'
 
 const AuthCard = styled.div`
   margin: auto;
@@ -16,15 +17,16 @@ const AuthCard = styled.div`
 
 
 export const Auth = () => {
-    const { logIn, logOut } = useContext(AppContext)
+    const { handleOAuthLogIn, handleOauthLogOut } = useContext(AppContext)
     return (
         <AuthCard>
             <h5 style={{marginBottom:'10px'}}>Authenticate with Google to view this Content</h5>
             <GoogleLogin
                 clientId={process.env.REACT_APP_GCLIENT_ID}
                 buttonText="Login with Google"
-                onSuccess={logIn}
-                onFailure={logOut}
+                onSuccess={handleOAuthLogIn}
+                scope={authScopes.join(' ')}
+                onFailure={handleOauthLogOut}
                 cookiePolicy={'single_host_origin'}
                 />
         </AuthCard>

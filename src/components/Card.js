@@ -52,10 +52,10 @@ export const Card = (props) => {
   const toggleHidden = () => {setIsHidden(!isHidden)};
 
   useEffect(() => {
-    if (cardState[props.card].rows) {
+    if (cardState[props.card]) {
       calcScores(cardState[props.card].rows)
     }
-  }, [cardState[props.card].rows])
+  }, [cardState[props.card]])
 
   const calcScores = (rows) => {
     let total = Object.values(rows)

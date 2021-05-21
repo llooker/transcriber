@@ -1,13 +1,17 @@
 import gql from "graphql-tag";
 
 export const urls = {
-  googleScripts:
-    "https://script.google.com/a/macros/google.com/s/AKfycbzSUxwD_J16kVpdWdjr_R-GsJklbnmv8buAho5rF9eR-GKS4yO3AiC_QDvf6gkk_NDY/exec",
-  gDrive:
-    "https://drive.google.com/drive/u/0/folders/1VXtp98I-A8MFdo-wN3iHnYOPYtqh8lTI",
+  googleScripts: "https://script.google.com/a/macros/google.com/s/AKfycbx3cAgcUKu5154cjUdx1wsEJDSfIy-0OoozpdZYcqfijuTSVL2CKWw3ecKkFphRz3Ithw/exec",
+  gDrive: "https://drive.google.com/drive/u/0/folders/1VXtp98I-A8MFdo-wN3iHnYOPYtqh8lTI",
   guru: "https://app.getguru.com/boards/yiKXnGpi/Transcriber",
   graphQL: "https://yu3gypcoyi.execute-api.us-west-2.amazonaws.com/dev/graphql",
 };
+
+export const authScopes = [
+  "https://www.googleapis.com/auth/drive",
+  "https://www.googleapis.com/auth/documents",
+  "https://www.googleapis.com/auth/script.deployments"
+]
 
 export const GuruQuery = gql`
   query UserQuery {

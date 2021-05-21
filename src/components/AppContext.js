@@ -1,18 +1,49 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useMemo } from "react";
+import Cookie from 'js-cookie'
+import { OAuth2Client } from 'google-auth-library'
+const gClient = new OAuth2Client(process.env.REACT_APP_GCLIENT_ID);
+
 export const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
-    const [authProps, setAuthProps] = useState(undefined)
     const [customerState, setCustomerState] = useState('')
     const [cardState, setCardState] = useState({})
     const [reviewType, setReviewType] = useState('lookml')
 
-    const logIn = (res) => {
-        setAuthProps({token: {...res.tokenObj}, user: {...res.profileObj}})
+    const validateToken = async (token) => {
+        const ticket = await gClient.verifyIdToken({
+            idToken: token,
+            audience: process.env.REACT_APP_GCLIENT_ID
+        });
+        try {
+            ticket.getPayload()
+            return true
+        } catch (e) {
+            console.error(e)
+        }
+        return false
+      }
+
+    const handleOAuthLogIn = (res) => {
+        console.log(res.tokenId)
+        Cookie.set('gtoken', res.tokenId)
+        Cookie.set('guser', res.profileObj)
+        window.location.reload()
     }
-    const logOut = (res) => {
-        console.error(`Auth error: ${res}`)
-        setAuthProps(undefined);
+
+    const shouldLogIn = () => {
+        const existing = Cookie.get('gtoken')
+        if (existing) {
+            if (validateToken(existing)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    const handleOauthLogOut = () => {
+        Cookie.remove('gtoken')
+        Cookie.remove('guser')
     }
 
     const resetState = () => {
@@ -67,12 +98,10 @@ export const AppContextProvider = (props) => {
         setCardState({...tmp})
     }
 
-    // Make helpers for setCardState functions
-
     const contextValue = {
-        authProps,
-        logIn,
-        logOut,
+        shouldLogIn,
+        handleOAuthLogIn,
+        handleOauthLogOut,
         customerState,
         setCustomerState,
         cardState,
@@ -80,10 +109,10 @@ export const AppContextProvider = (props) => {
         reviewType,
         setReviewType,
         resetState,
-        generateScores,
+        generateScores: useMemo(() => generateScores, [cardState]),
         updateRowScore,
         updateRowNotes,
-        setupState
+        setupState: useMemo(() => setupState, [cardState])
     }
     return (
         <AppContext.Provider value={contextValue}>

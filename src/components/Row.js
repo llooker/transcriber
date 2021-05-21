@@ -39,8 +39,8 @@ const Row = (props) => {
 
   const setScore = (val) => {
     setClicks(val)
-    props.calcScores(cardState[props.card].rows)
     updateRowScore(props.card, props.name.text, val)
+    props.calcScores(cardState[props.card].rows)
   }
 
   const setNotes = (val) => {

@@ -2,47 +2,50 @@ import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
 import { urls } from './Constants'
 import styled from 'styled-components';
+import Cookie from 'js-cookie'
 
 const Clear = styled.span`
   padding-left: 100px;
 `;
 
 const ActionButtons = () => {
-  const { reviewType, authProps, setCustomerState, generateScores } = useContext(AppContext)
+  const { setCustomerState, generateScores } = useContext(AppContext)
   const clear = () => {
     if (window.confirm("Are you sure you want to start over?")) {
-      localStorage.clear();
       window.location.reload();
     }
   }
-  const save = () => {
-    let pause = 100
-    window.setTimeout(function() {
-      let scores = generateScores()
-      console.log(scores)
-      setCustomerState(prompt("Who is the customer?"))
 
+  const askCustomer = async () => {
+    let cust = await prompt("Who is the customer?")
+    setCustomerState(cust)
+  }
+
+  const save = async () => {
+    askCustomer().then(() => {
+      let scores = generateScores()
+      // console.log(scores)     
       fetch(urls.googleScripts, {
-          mode: 'no-cors',
-          headers: {
-              'Access-Control-Allow-Origin':'*',
-              'Authorization': `Bearer ${authProps?.token?.access_token}`
-          },
-          method: 'post',
-          body: scores
+        mode: 'no-cors',
+        headers: {
+          'Access-Control-Allow-Origin':'*',
+          'Authorization': `Bearer ${Cookie.get('gtoken')}`
+        },
+        method: 'post',
+        body: scores
       }).then((res) => {
-          console.log(res)
-          if (res.ok) {
-            if (window.confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
-              localStorage.clear();
-              window.location.reload();      
-            }
-          } 
-          else {
-            window.alert('Problem communicating with Google Drive! Check the console')
+        console.log(res)
+        if (res.ok) {
+          if (window.confirm('All done, check the Transcriber Output folder. Do you want to clear?')) {
+            window.location.reload();      
           }
+        } 
+        else {
+          window.alert('Problem communicating with Google Drive! Check the console')
+        }
       }); 
-    }, reviewType.options.length * pause)
+    }
+    )
   }
     return (
         <div>
