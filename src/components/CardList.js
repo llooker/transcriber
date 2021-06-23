@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GuruQuery, cardChoices } from "./Constants";
-import PropTypes from "prop-types";
 import { Card } from "./Card";
 import styled from "styled-components";
 import { AppContext } from "./AppContext";
@@ -63,7 +62,3 @@ export const CardList = () => {
       );
     }
   }
-
-CardList.propTypes = {
-  data: PropTypes.any.isRequired, // eslint-disable-line
-};

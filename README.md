@@ -77,10 +77,13 @@ Initial User Stories
 ---
 
 ## TOM TO DO
-* Figure out 401 problem (App script migrate to new project?)
+* Get App script working or use Docs API
+* Visual lift
+* Add Reset button
 * Replace App Script with Native Gcloud SDKs in JS?
 * Replace Guru
-* Make Oauth cookie-based
-  * Check best practices (e.g. server side validation) with Nick
 ## Bugs
   * Row score state is out of sync
+  * % score calcs should ignore crossed off items
+  * ShouldLogIn is not logging out when returning false
+    * i.e. a bad cookie does not force a new login

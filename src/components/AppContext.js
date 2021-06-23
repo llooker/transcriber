@@ -6,7 +6,6 @@ const gClient = new OAuth2Client(process.env.REACT_APP_GCLIENT_ID);
 export const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
-    const [customerState, setCustomerState] = useState('')
     const [cardState, setCardState] = useState({})
     const [reviewType, setReviewType] = useState('lookml')
 
@@ -46,18 +45,12 @@ export const AppContextProvider = (props) => {
         Cookie.remove('guser')
     }
 
-    const resetState = () => {
-        setCardState({})
-        setCustomerState(undefined)
-    }
-
     const hasScore = (obj, k) => {
         return Object.values(obj[k].rows).map(v => v.score)
         .reduce((a,b) => a + b, 0) > 0
     }
 
     const generateScores = (customer_name) => {
-        setCustomerState(customer_name)
         let tmp = {}
         Object.keys(cardState).forEach(k => {
             if (hasScore(cardState, k)) {
@@ -72,7 +65,7 @@ export const AppContextProvider = (props) => {
                 })
             }
         })
-        return JSON.stringify({cards: {...tmp}, customer: customerState})
+        return JSON.stringify({cards: {...tmp}, customer: customer_name})
     }
 
     const setupState = (cards) => {
@@ -106,7 +99,7 @@ export const AppContextProvider = (props) => {
         cardState,
         reviewType,
         setReviewType,
-        generateScores: useMemo(() => generateScores, [cardState, customerState]),
+        generateScores: useMemo(() => generateScores, [cardState]),
         updateRowScore,
         updateRowNotes,
         setupState: useMemo(() => setupState, [cardState])

@@ -23,6 +23,7 @@ const ActionButtons = () => {
 
   const save = async () => {
     let scores = await generateForCustomer()
+    // console.log(scores)
     fetch(urls.googleScripts, {
         mode: 'no-cors',
         headers: {

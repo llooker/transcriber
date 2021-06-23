@@ -16,6 +16,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const StyledWord = (props) => {
+  return (
+    <><span className="underline">{props.text.slice(0,1)}</span>{props.text.slice(1,)}{" "}</>
+  )
+}
+
 const AppInner = () => {
   const { shouldLogIn } = useContext(AppContext)
   const [loggedIn, setLoggedIn] = useState(false)
@@ -33,17 +39,18 @@ const AppInner = () => {
               <div className="tooltip">
                 Transcriber
                 <span className="tooltiptext">
-                  Transcriber <span className="underline">r</span>eproduces{" "}
-                  <span className="underline">a</span>nalytical,{" "}
-                  <span className="underline">n</span>eat,{" "}
-                  <span className="underline">s</span>imilarly{"-"}
-                  <span className="underline">c</span>omprehensive{" "}
-                  <span className="underline">r</span>eviews,{" "}
-                  <span className="underline">i</span>ncorporating{" #"}
-                  <span className="underline">b</span>estpractices{" "}
-                  <span className="underline">e</span>very{" "}
-                  <span className="underline">r</span>endition
-                </span>
+                  Transcriber{" "}
+                  <StyledWord text={'reproduces'}/>
+                  <StyledWord text={'analytical,'}/>
+                  <StyledWord text={'neat'}/>
+                  <StyledWord text={'similarly'}/>
+                  <StyledWord text={'comprehensive'}/>
+                  <StyledWord text={'reviews'}/>
+                  <StyledWord text={'incorporating'}/>
+                  <StyledWord text={'best practices'}/>
+                  <StyledWord text={'every'}/>
+                  <StyledWord text={'rendition'}/>
+                  </span>
               </div>
               &nbsp;helps you conduct different types of reviews and audits<br />
               and is powered by content from this{" "}
