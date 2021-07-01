@@ -23,14 +23,9 @@ const StyledWord = (props) => {
 }
 
 const AppInner = () => {
-  const { shouldLogIn } = useContext(AppContext)
-  const [loggedIn, setLoggedIn] = useState(false)
-  
-  useEffect(() => {
-    setLoggedIn(!shouldLogIn())
-  }, [Cookie.get('gtoken')])
-  
-  {return loggedIn ? (
+  const { loggedIn } = useContext(AppContext)
+
+      {return loggedIn ? (
       <ApolloProvider client={client}>
         <div className="App">
           <div className="App-header">
@@ -63,8 +58,7 @@ const AppInner = () => {
           <ActionButtons/>
         </div>
       </ApolloProvider>
-    ) : <Auth/> 
-  }
+    ) : <Auth/> }
 }
 
 const App = () => {

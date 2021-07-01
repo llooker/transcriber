@@ -1,48 +1,38 @@
-import React, { createContext, useState, useMemo } from "react";
-import Cookie from 'js-cookie'
+import React, { createContext, useState, useMemo, useEffect } from "react";
 import { OAuth2Client } from 'google-auth-library'
-const gClient = new OAuth2Client(process.env.REACT_APP_GCLIENT_ID);
-
 export const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
     const [cardState, setCardState] = useState({})
     const [reviewType, setReviewType] = useState('lookml')
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [gClient, setGClient] = useState(undefined)
+    
+    useEffect(() => {
+        setGClient(new OAuth2Client(process.env.REACT_APP_GCLIENT_ID))
+    }, [])
 
-    const validateToken = async (token) => {
-        const ticket = await gClient.verifyIdToken({
-            idToken: token,
-            audience: process.env.REACT_APP_GCLIENT_ID
-        });
+    const handleOAuthLogIn = async (res) => {
         try {
-            ticket.getPayload()
-            return true
-        } catch (e) {
+            let tmp = gClient
+            tmp.setCredentials(res.tokenObj)
+            setGClient(tmp)
+            setLoggedIn(true)
+        }
+        catch (e) {
+            window.alert("Problem authenticating. See console")
+            setLoggedIn(false)
             console.error(e)
         }
-        return false
-      }
-
-    const handleOAuthLogIn = (res) => {
-        console.log(res.tokenId)
-        Cookie.set('gtoken', res.tokenId)
-        Cookie.set('guser', res.profileObj)
-        window.location.reload()
-    }
-
-    const shouldLogIn = () => {
-        const existing = Cookie.get('gtoken')
-        if (existing) {
-            if (validateToken(existing)) {
-                return false
-            }
-        }
-        return true
     }
 
     const handleOauthLogOut = () => {
-        Cookie.remove('gtoken')
-        Cookie.remove('guser')
+        if (gClient) {
+            let tmp = gClient
+            tmp.revokeCredentials()
+            setGClient(tmp)
+        }
+        setLoggedIn(false)
     }
 
     const hasScore = (obj, k) => {
@@ -93,7 +83,8 @@ export const AppContextProvider = (props) => {
     }
 
     const contextValue = {
-        shouldLogIn,
+        gClient,
+        loggedIn,
         handleOAuthLogIn,
         handleOauthLogOut,
         cardState,
