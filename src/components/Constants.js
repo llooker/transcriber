@@ -9,7 +9,6 @@ export const urls = {
 };
 
 export const authScopes = [
-  "https://www.googleapis.com/auth/drive",
   "https://www.googleapis.com/auth/script.deployments",
   "https://www.googleapis.com/auth/pubsub"
 ]

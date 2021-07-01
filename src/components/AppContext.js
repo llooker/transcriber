@@ -59,6 +59,7 @@ export const AppContextProvider = (props) => {
     }
 
     const setupState = (cards) => {
+        console.log(cards)
         let tmp = {}
         cards.forEach(c => {
             let rowtmp = {}
