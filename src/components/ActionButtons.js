@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
-import { urls, outputSummary } from './Constants'
-import { generateDocument } from './Utils'
+import { urls } from './Constants'
 import styled from 'styled-components';
 import { GoogleLogout } from 'react-google-login';
 
@@ -22,24 +21,32 @@ const ActionButtons = () => {
 
   const save = async () => {
     let scores = await generateForCustomer()
-    // generateDocument(gClient, scores)
-    
+    let requestTokenHeaders = await gClient.getRequestHeaders()
     let headers = {
-      ...await gClient.getRequestHeaders(),
+      ...requestTokenHeaders,
       "Access-Control-Allow-Origin": "*",
-      "Content-type": "application/json; charset=utf-8"
+      "Content-type": "application/json"
     }
-    // APPSCRIPT /exec doesn't work with CORS -> find an alternative!
+    let pubsubPayload = {
+      messages: [
+        {
+          data: btoa(JSON.stringify({
+            token: requestTokenHeaders,
+            data: scores
+          }))
+        },
+      ]
+    }
+
     try {
-        let r = await gClient.request({
-          url: urls.googleScripts,
-          method: 'POST',
-          headers: headers,
-          body: scores
-        });
-        console.log(r);
-        if (r.ok) {
-          let msg = 'All done, check the Transcriber Output folder. Do you want to clear?'
+      let r = await gClient.request({
+        url: urls.pubsub,
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(pubsubPayload)
+      })
+        if (r.status === 200) {
+          let msg = 'All done, check the Transcriber Output folder (in a minute or two). Do you want to clear?'
           if (window.confirm(msg)) {
             window.location.reload();      
           }

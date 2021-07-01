@@ -55,7 +55,7 @@ export const AppContextProvider = (props) => {
                 })
             }
         })
-        return JSON.stringify({cards: {...tmp}, customer: customer_name})
+        return {cards: {...tmp}, customer: customer_name}
     }
 
     const setupState = (cards) => {
