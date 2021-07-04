@@ -77,13 +77,9 @@ Initial User Stories
 ---
 
 ## TOM TO DO
-* Get App script working or use Docs API
 * Visual lift
 * Add Reset button
-* Replace App Script with Native Gcloud SDKs in JS?
-* Replace Guru
+* Replace Guru with doc store / SQL db
 ## Bugs
   * Row score state is out of sync
   * % score calcs should ignore crossed off items
-  * ShouldLogIn is not logging out when returning false
-    * i.e. a bad cookie does not force a new login

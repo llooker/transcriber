@@ -7,7 +7,7 @@ export const AppContextProvider = (props) => {
     const [reviewType, setReviewType] = useState('lookml')
     const [loggedIn, setLoggedIn] = useState(false)
     const [gClient, setGClient] = useState(undefined)
-    
+
     useEffect(() => {
         setGClient(new OAuth2Client(process.env.REACT_APP_GCLIENT_ID))
     }, [])

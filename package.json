@@ -3,6 +3,7 @@
   "homepage": "https://transcriber-dot-looker-ps-technical-resources.googleplex.com/",
   "version": "0.1.5",
   "private": true,
+  "proxy": "http://localhost:3000/",
   "dependencies": {
     "@apollo/client": "^3.3.19",
     "acorn": "^8.4.0",
@@ -10,6 +11,7 @@
     "apollo-client": "^2.6.10",
     "apollo-client-preset": "^1.0.2",
     "apollo-link-http": "^1.5.17",
+    "concurrently": "^6.2.0",
     "gh-pages": "^3.2.3",
     "google-auth-library": "^7.0.4",
     "graphql": "15.5.1",
@@ -32,9 +34,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy-s3": "yarn build && serverless client deploy",
-    "deploy-gh": "gh-pages -d build",
-    "deploy-netlify": "yarn build && netlify deploy build"
+    "deploy": "yarn build && gcloud app deploy"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
