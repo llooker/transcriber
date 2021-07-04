@@ -19,53 +19,33 @@ const ActionButtons = () => {
     return generateScores(cust)
   }
 
+  const postGDocError = (msg) => {
+    window.alert('Problem communicating with Google Drive! Check the console')
+    console.error(msg)
+  }
+
   const save = async () => {
     let scores = await generateForCustomer()
     let requestTokenHeaders = await gClient.getRequestHeaders()
     let headers = {
       ...requestTokenHeaders,
-      "Access-Control-Allow-Origin": "*",
       "Content-type": "application/json"
     }
-    let pubsubPayload = {
-      messages: [
-        {
-          data: btoa(JSON.stringify({
-            token: requestTokenHeaders,
-            data: scores
-          }))
-        },
-      ]
-    }
 
-    let r = await fetch({
-      url: '/api/generate',
-      method: 'POST',
-      body: JSON.stringify(scores)
-    })
-    if (r.ok) {console.log(r)}
-    // try {
-    //   let r = await gClient.request({
-    //     url: urls.pubsub,
-    //     method: 'POST',
-    //     headers: headers,
-    //     body: JSON.stringify(pubsubPayload)
-    //   })
-    //     if (r.status === 200) {
-    //       let msg = 'All done, check the Transcriber Output folder (in a minute or two). Do you want to clear?'
-    //       if (window.confirm(msg)) {
-    //         window.location.reload();      
-    //       }
-    //     } else {
-    //       window.alert('Problem communicating with Google Drive! Check the console')
-    //       console.error(r)
-    //     }
-    // } catch (e) {
-    //   window.alert('Problem communicating with Google Drive! Check the console')
-    //   console.error(e)
-    // }
+    try {
+      let r = await fetch('/generate', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(scores)
+      })  
+      if (r.ok) {
+        let msg = 'All done, check the Transcriber Output folder. Do you want to clear?'
+        window.confirm(msg) && window.location.reload()
+        console.log(r.doc)
+        // TO DO - replace with a nice custom modal!
+      } else {postGDocError(r)}
+    } catch (e) {postGDocError(e)}
   }
-
     return (
       <>
         <div>

@@ -3,7 +3,7 @@
   "homepage": "https://transcriber-dot-looker-ps-technical-resources.googleplex.com/",
   "version": "0.1.5",
   "private": true,
-  "proxy": "http://localhost:3000/",
+  "proxy": "http://localhost:5000/api",
   "dependencies": {
     "@apollo/client": "^3.3.19",
     "acorn": "^8.4.0",

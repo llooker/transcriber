@@ -1,11 +1,9 @@
 import gql from "graphql-tag";
 
 export const urls = {
-  googleScripts: "https://script.google.com/a/macros/google.com/s/AKfycbx3cAgcUKu5154cjUdx1wsEJDSfIy-0OoozpdZYcqfijuTSVL2CKWw3ecKkFphRz3Ithw/exec",
   gDrive: "https://drive.google.com/drive/u/0/folders/1VXtp98I-A8MFdo-wN3iHnYOPYtqh8lTI",
   guru: "https://app.getguru.com/boards/yiKXnGpi/Transcriber",
-  graphQL: "https://yu3gypcoyi.execute-api.us-west-2.amazonaws.com/dev/graphql",
-  pubsub: "https://pubsub.googleapis.com/v1/projects/google.com:looker-ps-technical-resources/topics/transcriber:publish"
+  graphQL: "https://yu3gypcoyi.execute-api.us-west-2.amazonaws.com/dev/graphql"
 };
 
 export const authScopes = [
