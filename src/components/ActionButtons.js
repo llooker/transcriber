@@ -29,19 +29,25 @@ const ActionButtons = () => {
     let requestTokenHeaders = await gClient.getRequestHeaders()
     let headers = {
       ...requestTokenHeaders,
-      "Content-type": "application/json"
+      "Content-type": "application/json",
+      "Access-Control-Allow-Origin": "*"
     }
 
     try {
-      let r = await fetch('/generate', {
+      let r = await fetch('/api/generate', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(scores)
       })  
       if (r.ok) {
-        let msg = 'All done, check the Transcriber Output folder. Do you want to clear?'
-        window.confirm(msg) && window.location.reload()
-        console.log(r.doc)
+        let resp = await r.json()
+        if (resp.ok) {
+          let msg = 'All done, check the Transcriber Output folder. Do you want to clear?'
+          window.confirm(msg) && window.location.reload()
+          console.log(resp.msg)
+        } else {
+          postGDocError(resp.msg)
+        }
         // TO DO - replace with a nice custom modal!
       } else {postGDocError(r)}
     } catch (e) {postGDocError(e)}

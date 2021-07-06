@@ -3,7 +3,7 @@
   "homepage": "https://transcriber-dot-looker-ps-technical-resources.googleplex.com/",
   "version": "0.1.5",
   "private": true,
-  "proxy": "http://localhost:5000/api",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@apollo/client": "^3.3.19",
     "acorn": "^8.4.0",
@@ -33,8 +33,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "yarn build && gcloud app deploy"
+    "predeploy": "yarn build && rm -r flaskapp/build && cp -r build flaskapp/build",
+    "deploy": "yarn predeploy && cd flaskapp && gcloud app deploy"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",

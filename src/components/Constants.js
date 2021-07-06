@@ -7,9 +7,13 @@ export const urls = {
 };
 
 export const authScopes = [
-  "https://www.googleapis.com/auth/script.deployments",
-  "https://www.googleapis.com/auth/pubsub"
+  "https://www.googleapis.com/auth/script.deployments"
+  ,"https://www.googleapis.com/auth/pubsub"
+  ,"https://www.googleapis.com/auth/drive"
+  ,"https://www.googleapis.com/auth/documents"
 ]
+
+// ,"https://www.googleapis.com/auth/drive.file"
 
 export const GuruQuery = gql`
   query UserQuery {
