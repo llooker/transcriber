@@ -78,8 +78,10 @@ Initial User Stories
 
 ## TOM TO DO
 * Visual lift
+* Loading component when activating app script
 * Add Reset button
 * Replace Guru with doc store / SQL db
 ## Bugs
   * Row score state is out of sync
   * % score calcs should ignore crossed off items
+
