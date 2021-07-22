@@ -1,16 +1,23 @@
 import React, { createContext, useState, useMemo, useEffect } from "react";
 import { OAuth2Client } from 'google-auth-library'
+import { urls } from "./Constants";
 export const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
     const [cardState, setCardState] = useState({})
-    const [reviewType, setReviewType] = useState('lookml')
+    const [section, setSection] = useState('LookML') 
+    const [data, setData] = useState({})   
     const [loggedIn, setLoggedIn] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [gClient, setGClient] = useState(undefined)
 
     useEffect(() => {
-        setGClient(new OAuth2Client(process.env.REACT_APP_GCLIENT_ID))
+        setupClient()
     }, [])
+
+    const setupClient = () => {
+        setGClient(new OAuth2Client(process.env.REACT_APP_GCLIENT_ID))
+    }
 
     const handleOAuthLogIn = async (res) => {
         try {
@@ -35,62 +42,106 @@ export const AppContextProvider = (props) => {
         setLoggedIn(false)
     }
 
-    const hasScore = (obj, k) => {
-        return Object.values(obj[k].rows).map(v => v.score)
+    const hasScore = (obj, k, k2) => {
+        return Object.values(obj[k][k2]).map(v => v.score)
         .reduce((a,b) => a + b, 0) > 0
     }
 
     const generateScores = (customer_name) => {
         let tmp = {}
         Object.keys(cardState).forEach(k => {
-            if (hasScore(cardState, k)) {
+            Object.keys(cardState[k]).forEach(k2 => {
+            if (hasScore(cardState, k, k2)) {
                 tmp[k] = {rows: {}}
-                Object.keys(cardState[k].rows).forEach(r => {
-                    let tmpScore = cardState[k].rows[r].score
+                Object.values(cardState[k]).forEach(r => {
+                    let tmpScore = cardState[k][r].score
                     if(tmpScore > 0 && tmpScore < 6) {
-                        let tmpRow = {...cardState[k].rows[r]}
+                        let tmpRow = {...cardState[k][r]}
                         tmpRow.score -=1
-                        tmp[k].rows[r] = {...tmpRow}
+                        tmp[k][r] = {...tmpRow}
                     }
                 })
             }
         })
+        })
         return {cards: {...tmp}, customer: customer_name}
     }
 
-    const setupState = (cards) => {
-        console.log(cards)
-        let tmp = {}
-        cards.forEach(c => {
-            let rowtmp = {}
-            c.rows.forEach(r => {
-                rowtmp[r.text] = {notes: '', score: 0}
-            })
-            tmp[c.title] = {rows: rowtmp}
-        })
+  const parseCsv = (data) => {
+    let lines = data.split("\n");
+    let headers = lines[0].split("\t");
+    lines = lines.slice(1);
+    let parsed = [];
+    lines.forEach((l) => {
+      let cols = l.split("\t");
+      let zip = cols.reduce((acc, cur, ix) => {
+        acc[headers[ix].replace(/[\n\r]/g, '')] = cur.replace(/[\n\r]/g, '')
+        return acc;
+      }, {});
+      parsed.push(zip);
+    });
+    return parsed;
+  };
+
+
+    const fetchData = async (client) => {
+        let r = await client.request({
+            url: urls.gSheetsData,
+          });
+          if (r.status === 200) {
+            return parseCsv(r.data);
+          } else {
+            alert("Problem loading data from Google sheets, check console!");
+            console.error(
+              `Something failed! Check the sheet at ${urls.gSheets} and the response:`
+            );
+            console.info(r);
+          }
+    }
+
+    const setupState = async (client) => {
+        let cards = await fetchData(client)
+        let tmp = cards.reduce((acc, cur) => {
+            let section = cur['Section']
+            let card = cur['Card']
+            let content = cur['Content'] // TODO: fix!
+            let data = {score: 0, notes: '', ...cur}
+            if (!(section in acc)) {
+                acc[section] = {}
+                acc[section][card] = {}
+            } else if (!(card in acc[section])) {
+                acc[section][card] = {}
+            }
+            acc[section][card][content] = data
+            return acc
+        }, {})
         setCardState({...tmp})
+        setLoading(false)
     }
 
     const updateRowScore = (cardKey, rowKey, val) => {
         let tmp = {...cardState}
-        tmp[cardKey].rows[rowKey].score = val
+        tmp[section][cardKey][rowKey].score = val
         setCardState({...tmp})
     }
 
     const updateRowNotes = (cardKey, rowKey, val) => {
         let tmp = {...cardState}
-        tmp[cardKey].rows[rowKey].notes = val
+        tmp[section][cardKey][rowKey].notes = val
         setCardState({...tmp})
     }
 
     const contextValue = {
         gClient,
         loggedIn,
+        loading,
         handleOAuthLogIn,
         handleOauthLogOut,
         cardState,
-        reviewType,
-        setReviewType,
+        section,
+        setSection,
+        data,
+        setData,
         generateScores: useMemo(() => generateScores, [cardState]),
         updateRowScore,
         updateRowNotes,

@@ -1,27 +1,38 @@
 import React, { useContext } from 'react'
 import { AppContext } from './AppContext'
 import { GoogleLogin } from 'react-google-login';
-import styled from 'styled-components'
-import { authScopes } from './Constants'
+import { gLogo, authScopes, logoImg } from './Constants'
+import { useStyles } from './Styles';
+import { Box, Button, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 
-const AuthCard = styled.div`
-  margin: auto;
-  padding: 20px;
-  width: 600px;
-  max-width: 100%;
-  text-align: left;
-  background-color: #ffffff;
-  border-radius: 2px;
-  box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.3);
-`;
-
+const GIcon = () => {
+    const classes = useStyles()
+    return (
+        <img src={gLogo} className={classes.authGLogo}/>
+    )
+}
 
 export const Auth = () => {
+    const classes = useStyles()
     const { handleOAuthLogIn, handleOauthLogOut } = useContext(AppContext)
     return (
-        <AuthCard>
-            <h5 style={{marginBottom:'10px'}}>Authenticate with Google to view this Content</h5>
+        <Box className={classes.authCard}>
+            <img src={logoImg} className={clsx(classes.authImg, classes.authChild)} alt="logo" />
+            <Typography className={clsx(classes.authHeader, classes.authChild)}>
+                transcriber
+                </Typography>
+            <hr className={clsx(classes.authRule, classes.authChild)}/>
             <GoogleLogin
+                render={renderProps => (
+                    <Button 
+                    onClick={renderProps.onClick} disabled={renderProps.disabled}
+                    className={clsx(classes.authButton, classes.authChild)}
+                    variant='outlined'
+                    startIcon={<GIcon/>}
+                    >Log in with Google
+                    </Button>
+                  )}
                 clientId={process.env.REACT_APP_GCLIENT_ID}
                 buttonText="Login with Google"
                 onSuccess={handleOAuthLogIn}
@@ -29,6 +40,6 @@ export const Auth = () => {
                 onFailure={handleOauthLogOut}
                 cookiePolicy={'single_host_origin'}
                 />
-        </AuthCard>
+        </Box>
     )
 }

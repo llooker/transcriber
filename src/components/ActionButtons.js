@@ -1,14 +1,10 @@
 import React, { useContext } from 'react';
 import { AppContext } from './AppContext';
-import { urls } from './Constants'
-import styled from 'styled-components';
-import { GoogleLogout } from 'react-google-login';
+import { useStyles } from './Styles';
+import { Box, Button } from '@material-ui/core';
 
-const Clear = styled.span`
-  padding-left: 100px;
-`;
-
-const ActionButtons = () => {
+export const ActionButtons = () => {
+  const classes = useStyles()
   const { generateScores, gClient, handleOauthLogOut } = useContext(AppContext)
   const clear = () => {
     window.confirm("Are you sure you want to start over?") && window.location.reload()
@@ -20,8 +16,8 @@ const ActionButtons = () => {
   }
 
   const postGDocError = (msg) => {
-    window.alert('Problem communicating with Google Drive! Check the console')
     console.error(msg)
+    window.alert('Problem communicating with Google Drive! Check the console')
   }
 
   const save = async () => {
@@ -42,32 +38,25 @@ const ActionButtons = () => {
       if (r.ok) {
         let resp = await r.json()
         if (resp.ok) {
-          let msg = 'All done, check the Transcriber Output folder. Do you want to clear?'
-          window.confirm(msg) && window.location.reload()
-          console.log(resp.msg)
+          let msg = 'Document has been saved in the root of your Google Drive. Do you want to clear?'
+          if (window.confirm(msg))
+            { window.location.reload();
+              window.open(resp.data, "_blank")
+          } else {
+            window.open(resp.data, "_blank")
+          }
         } else {
-          postGDocError(resp.msg)
+          postGDocError(resp.error)
         }
         // TO DO - replace with a nice custom modal!
       } else {postGDocError(r)}
     } catch (e) {postGDocError(e)}
   }
     return (
-      <>
-        <div>
-            <input type="button" onClick={save} value="Save to Google Doc"/>&nbsp;&nbsp;
-            <a target="_blank" rel="noopener noreferrer" href={urls.gDrive}>Transcriber Output Location</a>
-            <Clear><input type="button" onClick={clear} value="Clear"/></Clear>
-            <p>&nbsp;</p>
-        </div>
-        <div>
-          <GoogleLogout
-            buttonText="Logout"
-            onLogoutSuccess={handleOauthLogOut}
-            />
-        </div>
-        </>
+      <Box className={classes.actionButtonContainer}>
+          <Button variant='contained' color='primary' className={classes.bottomButton} onClick={save}>Save to Google Doc</Button>
+          <Button variant='contained' color='secondary' className={classes.bottomButton} onClick={clear}>Clear</Button>
+          <Button variant='outlined'  className={classes.bottomButton} onClick={handleOauthLogOut}>Logout</Button>
+        </Box>
     )
 }
-
-export default ActionButtons;

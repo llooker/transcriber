@@ -1,51 +1,58 @@
+import { Card, CardContent, CardHeader, FormControl, InputLabel, Box, TextField, Tooltip, Typography } from "@material-ui/core";
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from './AppContext';
-import { clickSettings } from './Constants'
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import clsx from 'clsx';
+import { useStyles } from "./Styles";
+import StarIcon from '@material-ui/icons/Star';
+import StarOutlineIcon from '@material-ui/icons/StarOutline';
 
-const Text = styled.div`
-  border-bottom: 1px solid #e6ecf0;
-  padding: 15px 15px;
-  font-size: 14px;
-  line-height: 20px;
-  &:hover {
-    cursor: pointer;
-    background-color: rgb(245, 245, 245);
+const StarDisplay = (props) => {
+  let clicks = props.value - 1
+  // console.log(clicks)
+  let colors = {
+    0: '#FCC934',
+    1: '#FCC934',
+    2: '#FBBC04',
+    3: '#F9AB00',
+    4: '#F29900'
   }
-`;
 
-const ScoreBase = styled.span`
-  border-radius: 25px;
-  padding: 3px;
-`;
+  return (
+    <Box>
+      {(clicks > 0 && clicks < 5) ? (<>
+      {clicks >= 1 ? <StarIcon style={{color: colors[clicks]}} /> : <StarOutlineIcon style={{color: colors[clicks]}}/>}
+      {clicks >= 2 ? <StarIcon style={{color: colors[clicks]}} /> : <StarOutlineIcon style={{color: colors[clicks]}}/>}
+      {clicks >= 3 ? <StarIcon style={{color: colors[clicks]}} /> : <StarOutlineIcon style={{color: colors[clicks]}}/>}
+      {clicks >= 4 ? <StarIcon style={{color: colors[clicks]}} /> : <StarOutlineIcon style={{color: colors[clicks]}}/>}
+      </> )
+      : <></>}
+      </Box>
 
-const Notes = styled.div`
-  border-bottom: 1px solid #e6ecf0;
-  padding: 15px 15px;
-`;
+  )
+}
 
-const Row = (props) => {
-  const { cardState, updateRowScore, updateRowNotes } = useContext(AppContext)
+export const Row = (props) => {
+  const { cardState, section, updateRowScore, updateRowNotes } = useContext(AppContext)
   const [clicks, setClicks] = useState(0);
-  const [displayNotes, setDisplayNotes] = useState(null); 
-
+  const [displayNotes, setDisplayNotes] = useState(props.data.notes); 
+  const classes = useStyles()
+  
   useEffect(() => {
-    if (cardState[props.card]) {
-      setDisplayNotes(cardState[props.card].rows[props.name.text].notes)
-      setClicks(cardState[props.card].rows[props.name.text].score)
+    if (cardState[section][props.card]) {
+      setDisplayNotes(cardState[section][props.card][data.name].notes)
+      setClicks(cardState[section][props.card][props.name].score)
     }
   }, [cardState[props.card]])
-
+  
   const setScore = (val) => {
     setClicks(val)
-    updateRowScore(props.card, props.name.text, val)
-    props.calcScores(cardState[props.card].rows)
+    // updateRowScore(props.card, props.name, val)
+    // props.calcScores(cardState[props.card])
   }
 
   const setNotes = (val) => {
     setDisplayNotes(val)
-    updateRowNotes(props.card, props.name.text, val)
+    updateRowNotes(props.card, props.name, val)
   }
 
   const handleClick = () => {
@@ -56,46 +63,63 @@ const Row = (props) => {
   const handleChange = (e) => {
     setNotes(e.target.value);
   };
-
-  let markdownLinks = /\[([^\]]+)\]\(([^)]+)\)/gi;
-  let htmlLinks = '<a target="_blank" href="$2">$1</a>';
-  let notes = (<Notes><textarea onChange={handleChange} value={displayNotes} cols="69" rows="3" /></Notes>)
-  let text = (
+  const cardDetails = (
     <span dangerouslySetInnerHTML={{
-        __html: props.name.text.replace(markdownLinks, htmlLinks),
+        __html: props.data.Content.replace(
+          /\[([^\]]+)\]\(([^)]+)\)/gi, 
+          '<a target="_blank" href="$2">$1</a>'),
       }}
     ></span>
-  );
-
-  const displayScore = () => {
-    let data = clickSettings[Number(clicks)]
-    if (data) {
-      return (
-        <ScoreBase style={{backgroundColor: data.color}}>
-          <span aria-label="yes" role="img">&nbsp;{data.icon}</span>
-        </ScoreBase>
-      )
-    } 
-    return (<></>)
-  }
+    )
 
     return (
-      <div>
-        <Text
-          data-text={props.name.text}
-          onClick={handleClick}
-          key={props.name.index}
-          style={(clicks === 6) ? {backgroundColor: '#eee', textDecoration: 'line-through'} : {}}
+    <Card className={classes.rowContent} elevation={3}>
+    <Box className={classes.hoverAction} onClick={handleClick}>
+    <StarDisplay value={clicks}/>
+    <CardHeader className={clsx(classes.rowCardStyle, {
+          [classes.rowCardStyleDisabled] : clicks === 6
+        })}
+      title={
+      <>
+        <Tooltip
+          title={`Added by ${props.data['Added By']} on ${props.data['Last updated']}`}
         >
-          {displayScore()} {text}
-        </Text>
-        {clicks >= 1 && notes}
-      </div>
-    );
-};
+        <Typography>{cardDetails}</Typography>
+        </Tooltip>
+      </>}
+    >
+    </CardHeader>
+    </Box>
+    {(clicks >= 1 && clicks < 6) && 
+    <CardContent style={{padding: '10px'}}>
+      <FormControl fullWidth>
+      <InputLabel className={classes.inputLabel}>Notes</InputLabel>
+      <TextField
+      multiline
+      variant='outlined'
+      value={displayNotes}
+      onChange={handleChange}
+      />
+        </FormControl>
+    </CardContent>
+    }
+  </Card>)
 
-Row.propTypes = {
-  name: PropTypes.any.isRequired, // eslint-disable-line
-};
 
-export default Row;
+
+
+  //   return (
+  //     <div>
+  //       <div
+  //         className={classes.rowText}
+  //         data-text={props.name}
+  //         onClick={handleClick}
+  //         key={props.ix}
+  //         style={(clicks === 6) ? {backgroundColor: '#eee', textDecoration: 'line-through'} : {}}
+  //       >
+  //         {displayScore()} {text}
+  //       </div>
+  //       {clicks >= 1 && notes}
+  //     </div>
+  //   );
+};

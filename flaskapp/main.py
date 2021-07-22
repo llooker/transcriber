@@ -1,4 +1,5 @@
 #!/usr/bin/env python 
+from json.decoder import JSONDecodeError
 import requests, json
 from flask import Flask, request, make_response
 try:
@@ -6,8 +7,7 @@ try:
   googleclouddebugger.enable(breakpoint_enable_canary=False)
 except ImportError:
   pass
-SCRIPT_ID = 'AKfycby4oKf1S-Gi1K4eZN-g5aBJgVChCBxBvWnRU4RdGEmOxqWVdPqrSYYJtdIWHy_8VVILRw'
-# SCRIPT_URL = f'https://script.googleapis.com/v1/scripts/{SCRIPT_ID}:run' # API version, needs a post with object containing func name + params
+SCRIPT_ID = 'AKfycbwFmbVXqB_uze9ewdQuwm6kkhqZ2zvksp1vICRTvrJKdt_gHFSpbo67ZfQWHLpoLQDcmA'
 SCRIPT_URL = f'https://script.google.com/a/macros/google.com/s/{SCRIPT_ID}/exec' # Webhook version
 app = Flask(__name__, static_folder="build", static_url_path="/")
 
@@ -20,17 +20,26 @@ def index():
 def generate_document():
     """Proxy endpoint to receive the document data and pass it 
     to Appscript"""
-    data = request.get_json()
+    resp_data = {'ok': None, 'data': None, 'error': {}}
+    try:
+        data = request.get_json()
+    except Exception as e:
+        resp_data['error'] = {'source':'parsing JS content', 'details': str(e)}
     token = request.headers.get('Authorization')
-    r = requests.post(SCRIPT_URL, data=json.dumps(data), headers={'Authorization': token})
-    resp_data = {'ok': None, 'msg': None}
+    try:
+        r = requests.post(SCRIPT_URL, data=json.dumps(data), headers={'Authorization': token})
+    except Exception as e:
+        resp_data['error'] = {'source':'Attempting post to App script', 'details': str(e)}
     try:
         r.raise_for_status()
         resp_data['ok'] = True 
-        resp_data['msg'] = r.json().get('url')
+        resp_data['data'] = r.json().get('url')
     except requests.exceptions.HTTPError as e:
         resp_data['ok'] = False 
-        resp_data['msg'] = str(e)
+        resp_data['error'] = {'source':'Error from App Script', 'details': str(e)}
+    except JSONDecodeError as e:
+        resp_data['ok'] = False 
+        resp_data['error'] = {'source':'Unexpected App Script response', 'details': {'python': str(e), 'appscript': r.text}}
     resp = make_response(resp_data)
     resp.headers["Access-Control-Allow-Origin"] = "*"
     return resp
