@@ -17,29 +17,31 @@ export const Auth = () => {
     const classes = useStyles()
     const { handleOAuthLogIn, handleOauthLogOut } = useContext(AppContext)
     return (
-        <Box className={classes.authCard}>
-            <img src={logoImg} className={clsx(classes.authImg, classes.authChild)} alt="logo" />
-            <Typography className={clsx(classes.authHeader, classes.authChild)}>
-                transcriber
-                </Typography>
-            <hr className={clsx(classes.authRule, classes.authChild)}/>
-            <GoogleLogin
-                render={renderProps => (
-                    <Button 
-                    onClick={renderProps.onClick} disabled={renderProps.disabled}
-                    className={clsx(classes.authButton, classes.authChild)}
-                    variant='outlined'
-                    startIcon={<GIcon/>}
-                    >Log in with Google
-                    </Button>
-                  )}
-                clientId={process.env.REACT_APP_GCLIENT_ID}
-                buttonText="Login with Google"
-                onSuccess={handleOAuthLogIn}
-                scope={authScopes.join(' ')}
-                onFailure={handleOauthLogOut}
-                cookiePolicy={'single_host_origin'}
-                />
-        </Box>
+            <div className={classes.authCardBackground}>
+                <Box className={classes.authCard}>
+                <img src={logoImg} className={clsx(classes.authImg, classes.authChild)} alt="logo" />
+                <Typography className={clsx(classes.authHeader, classes.authChild)}>
+                    transcriber
+                    </Typography>
+                <hr className={clsx(classes.authRule, classes.authChild)}/>
+                <GoogleLogin
+                    render={renderProps => (
+                        <Button 
+                        onClick={renderProps.onClick} disabled={renderProps.disabled}
+                        className={clsx(classes.authButton, classes.authChild)}
+                        variant='outlined'
+                        startIcon={<GIcon/>}
+                        >Log in with Google
+                        </Button>
+                    )}
+                    clientId={process.env.REACT_APP_GCLIENT_ID}
+                    buttonText="Login with Google"
+                    onSuccess={handleOAuthLogIn}
+                    scope={authScopes.join(' ')}
+                    onFailure={handleOauthLogOut}
+                    cookiePolicy={'single_host_origin'}
+                    />
+            </Box>
+            </div>
     )
 }

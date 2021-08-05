@@ -5,7 +5,7 @@ import { Box, Button } from '@material-ui/core';
 
 export const ActionButtons = () => {
   const classes = useStyles()
-  const { generateScores, gClient, handleOauthLogOut } = useContext(AppContext)
+  const { generateScores, gClient, handleOauthLogOut, setLoadingOut } = useContext(AppContext)
   const clear = () => {
     window.confirm("Are you sure you want to start over?") && window.location.reload()
   }
@@ -21,6 +21,7 @@ export const ActionButtons = () => {
   }
 
   const save = async () => {
+    setLoadingOut(true)
     let scores = await generateForCustomer()
     let requestTokenHeaders = await gClient.getRequestHeaders()
     let headers = {
@@ -38,6 +39,7 @@ export const ActionButtons = () => {
       if (r.ok) {
         let resp = await r.json()
         if (resp.ok) {
+          setLoadingOut(false)
           let msg = 'Document has been saved in the root of your Google Drive. Do you want to clear?'
           if (window.confirm(msg))
             { window.location.reload();
@@ -46,6 +48,7 @@ export const ActionButtons = () => {
             window.open(resp.data, "_blank")
           }
         } else {
+          setLoadingOut(false)
           postGDocError(resp.error)
         }
         // TO DO - replace with a nice custom modal!

@@ -1,15 +1,18 @@
+const gSheetsID = '1sh99pf2Pbo4DaIXAhCn20L_SCqRCh8jHb7emvQ0Aqr8'
+const gSheetsDataID = '2PACX-1vSltdSLlyHlBWJdoYk0TdpiSf7OpAHPNwQiVGRZCV9y5Uo_p8LP-cai12u66NB8qgGwaI3SAGxMQeGL'
+
 export const urls = {
   gDrive: "https://drive.google.com",
-  gSheetsData: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSltdSLlyHlBWJdoYk0TdpiSf7OpAHPNwQiVGRZCV9y5Uo_p8LP-cai12u66NB8qgGwaI3SAGxMQeGL/pub?gid=0&single=true&output=tsv",
-  gSheets: "https://docs.google.com/spreadsheets/d/1sh99pf2Pbo4DaIXAhCn20L_SCqRCh8jHb7emvQ0Aqr8"
+  gSheetsData: `https://docs.google.com/spreadsheets/d/e/${gSheetsDataID}/pub?gid=0&single=true&output=tsv`,
+  gSheets: `https://docs.google.com/spreadsheets/d/${gSheetsID}`
 };
 
 export const authScopes = [
   ,"https://www.googleapis.com/auth/drive"
-  ,"https://www.googleapis.com/auth/documents"
+  // ,"https://www.googleapis.com/auth/documents"
 ]
 
-export const defaultSection = 'Customer Success'
+export const defaultSection = 'LookML'
 
 export const DEBUG = true;
 

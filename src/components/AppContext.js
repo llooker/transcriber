@@ -8,7 +8,9 @@ export const AppContextProvider = (props) => {
     const [section, setSection] = useState(defaultSection) 
     const [data, setData] = useState({})   
     const [loggedIn, setLoggedIn] = useState(false)
+    const [user, setUser] = useState(undefined)
     const [loading, setLoading] = useState(true)
+    const [loadingOut, setLoadingOut] = useState(false)
     const [gClient, setGClient] = useState(undefined)
 
     useEffect(() => {
@@ -22,6 +24,7 @@ export const AppContextProvider = (props) => {
     const handleOAuthLogIn = async (res) => {
         try {
             let tmp = gClient
+            setUser(res.profileObj.email)
             tmp.setCredentials(res.tokenObj)
             setGClient(tmp)
             setLoggedIn(true)
@@ -39,6 +42,7 @@ export const AppContextProvider = (props) => {
             tmp.revokeCredentials()
             setGClient(tmp)
         }
+        setUser(undefined)
         setLoggedIn(false)
     }
 
@@ -63,7 +67,7 @@ export const AppContextProvider = (props) => {
                 })
             }
         })
-        return {cards: {...tmp}, customer: customer_name}
+        return {cards: {...tmp}, customer: customer_name, user: user}
     }
 
     const parseCsv = (data) => {
@@ -134,6 +138,8 @@ export const AppContextProvider = (props) => {
         gClient,
         loggedIn,
         loading,
+        loadingOut,
+        setLoadingOut,
         handleOAuthLogIn,
         handleOauthLogOut,
         cardState,

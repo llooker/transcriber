@@ -6,7 +6,7 @@ import { AppContext, AppContextProvider } from "./components/AppContext";
 import { Auth } from "./components/Auth";
 import { Box, Container, FormControl, MenuItem, Paper, Typography, InputLabel, Select, Tooltip} from "@material-ui/core";
 import { useStyles } from "./components/Styles";
-import { LoadingComponent } from './components/LoadingComponent'
+import { LoadingComponent, LoadingComponentModal } from './components/LoadingComponent'
 import CancelIcon from '@material-ui/icons/Cancel';
 
 const SectionChooser = () => {
@@ -52,7 +52,7 @@ const StyledWord = (props) => {
 
 const AppInner = () => {
   const classes = useStyles();
-  const { setupState, setData, data, cardState, section, gClient, loading } = useContext(AppContext);
+  const { setupState, setData, cardState, section, gClient, loading, loadingOut } = useContext(AppContext);
   const words = [
     "transcriber", "reproduces","analytical,","neat","similarly","comprehensive","reviews","incorporating","best practices","every","rendition"
   ]
@@ -63,6 +63,8 @@ const AppInner = () => {
 
   {
     return (
+      <>
+      {loadingOut && <LoadingComponentModal/>}
       <Paper className={classes.mainContainer}>
         <Box id='header' className={classes.appHeader}>
           <img src={logoImg} className={classes.appLogo} alt="logo" />
@@ -88,8 +90,8 @@ const AppInner = () => {
           </>
         )}
         <ActionButtons />
-        
-      </Paper>
+        </Paper>
+        </>
     );
   }
 };
@@ -106,7 +108,7 @@ export const App = () => {
   const classes = useStyles()
   return (
   <AppContextProvider>
-    <Container>
+    <Container className={classes.pageContainer}>
       <AppAuthLayer />
     </Container>
   </AppContextProvider>

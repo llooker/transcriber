@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
+  pageContainer: {
+  },
   mainContainer: {
     display: "flex",
     flexDirection: "column",
@@ -24,6 +26,21 @@ export const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
     // width: '80%'
   },
+  loadingModal: {
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden',
+    zIndex: 1000,
+    backgroundColor:'rgba(0,0,0,0.25)',
+    display: 'flex',
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
   appSectionChoice: {
     display: "flex",
     flexDirection: "row",
@@ -37,16 +54,26 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: "0",
     margin: "6px 0px",
   },
+  authCardBackground: {
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    left: 0,
+    top: 0
+  },
   authCard: {
     display: "flex",
+    position: 'fixed',
+    left: 'calc(50% - 400px/2 + 0.5px)',
+    top: 'calc(50% - 200px/2 - 0.5px)',
+    overflow: 'hidden',
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: "10px 0px",
+    padding: theme.spacing(3),
     width: "400px",
     height: "200px",
     margin: "auto",
-    marginTop: theme.spacing(5),
     backgroundColor: "#ffffff",
     borderRadius: "10px",
     boxShadow: "0px 2px 2px 0 rgba(0, 0, 0, 0.3)",
@@ -59,7 +86,7 @@ export const useStyles = makeStyles((theme) => ({
     width: '200px'
   },
   authHeader: {
-    fontFamily: "Google Sans",
+    // fontFamily: "Google Sans",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "36px",
@@ -78,7 +105,7 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow:
       "0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15)",
     borderRadius: "10px",
-    fontFamily: "Google Sans",
+    // fontFamily: "Google Sans",
     fontStyle: "normal",
     fontWeight: "00",
     color: '#3C4043',
@@ -137,7 +164,6 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     padding: "0px 80px 0px 80px",
-    // width: '80%'
   },
   rowContentCompact: {
     marginBottom: theme.spacing(1),
@@ -163,9 +189,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   inputLabel: {
     background: "white",
-    zIndex: 10,
-    transform: "translate(-5px, -5px)",
-    fontSize: "10pt",
+    // zIndex: 10,
+    // transform: "translate(-5px, -5px)",
+    // fontSize: "10pt",
   },
   rowCardStyle: {
     paddingBottom: "10px",

@@ -1,5 +1,5 @@
 import React from 'react'
-import { LinearProgress } from '@material-ui/core';
+import { Box, CircularProgress, LinearProgress } from '@material-ui/core';
 import { useStyles } from './Styles';
 
 export const LoadingComponent = () => {
@@ -9,3 +9,13 @@ export const LoadingComponent = () => {
     );
   };
   
+
+
+export const LoadingComponentModal = () => {
+  const classes = useStyles();
+  return (
+    <Box className={classes.loadingModal}>
+      <CircularProgress size={50} />
+    </Box>
+  );
+};
