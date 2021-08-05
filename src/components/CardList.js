@@ -38,7 +38,6 @@ const TranscriberCard = (props) => {
   let title = Object.values(props.data)[0].Card
   let scoreDenom = Object.keys(props.data).length * 4
   let scorePercent = Math.round((score / scoreDenom) * 100);
-  console.log(Object.keys(props.data))
   if (isRemoved) {
       return <></>
   } else return (

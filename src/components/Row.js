@@ -8,7 +8,6 @@ import StarOutlineIcon from '@material-ui/icons/StarOutline';
 
 const StarDisplay = (props) => {
   let clicks = props.value - 1
-  // console.log(clicks)
   let colors = {
     0: '#FCC934',
     1: '#FCC934',
@@ -19,7 +18,7 @@ const StarDisplay = (props) => {
 
   return (
     <Box>
-      {(clicks > 0 && clicks < 5) ? (<>
+      {(clicks >= 0 && clicks <= 4) ? (<>
       {clicks >= 1 ? <StarIcon style={{color: colors[clicks]}} /> : <StarOutlineIcon style={{color: colors[clicks]}}/>}
       {clicks >= 2 ? <StarIcon style={{color: colors[clicks]}} /> : <StarOutlineIcon style={{color: colors[clicks]}}/>}
       {clicks >= 3 ? <StarIcon style={{color: colors[clicks]}} /> : <StarOutlineIcon style={{color: colors[clicks]}}/>}
@@ -46,13 +45,13 @@ export const Row = (props) => {
   
   const setScore = (val) => {
     setClicks(val)
-    // updateRowScore(props.card, props.name, val)
-    // props.calcScores(cardState[props.card])
+    updateRowScore(props.data.Card, props.card, val)
+    props.calcScores(cardState[section][props.data.Card])
   }
 
   const setNotes = (val) => {
     setDisplayNotes(val)
-    updateRowNotes(props.card, props.name, val)
+    updateRowNotes(props.data.Card, props.card, val)
   }
 
   const handleClick = () => {
@@ -73,7 +72,11 @@ export const Row = (props) => {
     )
 
     return (
-    <Card className={classes.rowContent} elevation={3}>
+    <Card className={clsx(classes.rowContent, {
+      [classes.rowContentCompact] : (clicks === 0 || clicks === 6),
+      [classes.cardStyleDisabled]: (clicks === 6),
+      [classes.rowContentSpaced] : (clicks >= 1 && clicks <= 5),
+    })} elevation={3}>
     <Box className={classes.hoverAction} onClick={handleClick}>
     <StarDisplay value={clicks}/>
     <CardHeader className={clsx(classes.rowCardStyle, {
@@ -90,7 +93,7 @@ export const Row = (props) => {
     >
     </CardHeader>
     </Box>
-    {(clicks >= 1 && clicks < 6) && 
+    {(clicks >= 1 && clicks <= 5) && 
     <CardContent style={{padding: '10px'}}>
       <FormControl fullWidth>
       <InputLabel className={classes.inputLabel}>Notes</InputLabel>

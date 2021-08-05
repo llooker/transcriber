@@ -1,11 +1,11 @@
 import React, { createContext, useState, useMemo, useEffect } from "react";
 import { OAuth2Client } from 'google-auth-library'
-import { urls } from "./Constants";
+import { urls, defaultSection } from "./Constants";
 export const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
     const [cardState, setCardState] = useState({})
-    const [section, setSection] = useState('LookML') 
+    const [section, setSection] = useState(defaultSection) 
     const [data, setData] = useState({})   
     const [loggedIn, setLoggedIn] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -42,46 +42,45 @@ export const AppContextProvider = (props) => {
         setLoggedIn(false)
     }
 
-    const hasScore = (obj, k, k2) => {
-        return Object.values(obj[k][k2]).map(v => v.score)
+    const hasScore = (obj, k) => {
+        return Object.values(obj[k]).map(v => v.score)
         .reduce((a,b) => a + b, 0) > 0
     }
 
     const generateScores = (customer_name) => {
         let tmp = {}
-        Object.keys(cardState).forEach(k => {
-            Object.keys(cardState[k]).forEach(k2 => {
-            if (hasScore(cardState, k, k2)) {
+        let data = cardState[section]
+        Object.keys(data).forEach(k => {
+            if (hasScore(data, k)) {
                 tmp[k] = {rows: {}}
-                Object.values(cardState[k]).forEach(r => {
-                    let tmpScore = cardState[k][r].score
+                Object.keys(data[k]).forEach(k2 => {
+                    let tmpScore = data[k][k2].score
                     if(tmpScore > 0 && tmpScore < 6) {
-                        let tmpRow = {...cardState[k][r]}
+                        let tmpRow = {...data[k][k2]}
                         tmpRow.score -=1
-                        tmp[k][r] = {...tmpRow}
+                        tmp[k]['rows'][k2] = {...tmpRow}
                     }
                 })
             }
         })
-        })
         return {cards: {...tmp}, customer: customer_name}
     }
 
-  const parseCsv = (data) => {
-    let lines = data.split("\n");
-    let headers = lines[0].split("\t");
-    lines = lines.slice(1);
-    let parsed = [];
-    lines.forEach((l) => {
-      let cols = l.split("\t");
-      let zip = cols.reduce((acc, cur, ix) => {
-        acc[headers[ix].replace(/[\n\r]/g, '')] = cur.replace(/[\n\r]/g, '')
-        return acc;
-      }, {});
-      parsed.push(zip);
-    });
-    return parsed;
-  };
+    const parseCsv = (data) => {
+        let lines = data.split("\n");
+        let headers = lines[0].split("\t");
+        lines = lines.slice(1);
+        let parsed = [];
+        lines.forEach((l) => {
+        let cols = l.split("\t");
+        let zip = cols.reduce((acc, cur, ix) => {
+            acc[headers[ix].replace(/[\n\r]/g, '')] = cur.replace(/[\n\r]/g, '')
+            return acc;
+        }, {});
+        parsed.push(zip);
+        });
+        return parsed;
+    };
 
 
     const fetchData = async (client) => {
@@ -104,7 +103,7 @@ export const AppContextProvider = (props) => {
         let tmp = cards.reduce((acc, cur) => {
             let section = cur['Section']
             let card = cur['Card']
-            let content = cur['Content'] // TODO: fix!
+            let content = cur['Content'] 
             let data = {score: 0, notes: '', ...cur}
             if (!(section in acc)) {
                 acc[section] = {}

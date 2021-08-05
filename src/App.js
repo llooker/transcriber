@@ -32,7 +32,10 @@ const SectionChooser = () => {
             ))}
           </Select>
       </FormControl>
-      <Typography className={classes.tipSpan}>Tip: remove cards you're not interested in by clicking the <CancelIcon fontSize='inherit'/></Typography>
+      <Typography className={classes.tipSpan}>
+        Click the card heading to add notes, click again to add a star rating from 0-4<br/>
+        Remove cards you're not interested in by clicking the <CancelIcon fontSize='inherit'/><br/>
+        </Typography>
     </Box>
   )
 }

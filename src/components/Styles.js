@@ -35,7 +35,7 @@ export const useStyles = makeStyles((theme) => ({
     flex: "none",
     order: "0",
     flexGrow: "0",
-    margin: "12px 0px",
+    margin: "6px 0px",
   },
   authCard: {
     display: "flex",
@@ -43,24 +43,27 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     padding: "10px 0px",
-    width: "800px",
-    height: "400px",
+    width: "400px",
+    height: "200px",
     margin: "auto",
     marginTop: theme.spacing(5),
     backgroundColor: "#ffffff",
-    borderRadius: "20px",
+    borderRadius: "10px",
     boxShadow: "0px 2px 2px 0 rgba(0, 0, 0, 0.3)",
   },
   authGLogo: {
-    width: "32px",
-    height: "32px",
+    width: "16px",
+    height: "16px",
+  },
+  authImg: {
+    width: '200px'
   },
   authHeader: {
     fontFamily: "Google Sans",
     fontStyle: "normal",
     fontWeight: "normal",
-    fontSize: "48px",
-    lineHeight: "44px",
+    fontSize: "36px",
+    lineHeight: "32px",
     display: "flex",
     alignItems: "center",
     textAlign: "center",
@@ -74,17 +77,14 @@ export const useStyles = makeStyles((theme) => ({
   authButton: {
     boxShadow:
       "0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15)",
-    borderRadius: "100px",
+    borderRadius: "10px",
     fontFamily: "Google Sans",
     fontStyle: "normal",
     fontWeight: "00",
-    fontSize: "20px",
-    lineHeight: "20px",
-    padding: "20px",
-  },
-  innerHeader: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(2),
+    color: '#3C4043',
+    fontSize: "16px",
+    lineHeight: "16px",
+    padding: "12px",
   },
   tipSpan: {
     fontStyle: "italic",
@@ -100,30 +100,8 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: "10px",
   },
-  tooltip: {
-    position: "relative",
-    display: "inline-block",
-    borderBottom: "1px dotted black",
-  },
-  tooltipText: {
-    visibility: "hidden",
-    width: "300px",
-    backgroundColor: "black",
-    color: "#fff",
-    textAlign: "center",
-    padding: "5px 0",
-    borderRadius: "6px",
-    position: "absolute",
-    zIndex: 1,
-    "&:hover": {
-      visibility: "visible",
-    },
-  },
   underline: {
     textDecoration: "underline",
-  },
-  clearButton: {
-    paddingLeft: "100px",
   },
   allCardContainer: {
     marginTop: theme.spacing(3),
@@ -158,53 +136,22 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: " column",
     alignItems: "center",
     justifyContent: "center",
-    padding: "0px 60px 0px 60px",
+    padding: "0px 80px 0px 80px",
     // width: '80%'
+  },
+  rowContentCompact: {
+    marginBottom: theme.spacing(1),
+    padding: '10px 30px 10px 30px',
+    boxShadow: '0px'
+  },
+  rowContentSpaced: {
+    marginBottom: theme.spacing(4),
+    padding: '30px',
   },
   rowContent: {
     width: "100%",
-    marginBottom: theme.spacing(4),
-    padding: theme.spacing(3),
   },
-  cardTitle: {
-    borderBottom: "1px solid #e6ecf0",
-    padding: "15px 15px",
-    fontSize: "16px",
-    fontWeight: "bold",
-  },
-  cardRemove: {
-    padding: "15px 15px",
-    float: "right",
-    cursor: "pointer",
-    color: "#ddd",
-  },
-  cardScore: {
-    fontWeight: "normal",
-  },
-  cardSuper: {
-    fontSize: "12px",
-    color: "#bbb",
-    paddingLeft: "10px",
-  },
-  rowText: {
-    borderBottom: "1px solid #e6ecf0",
-    padding: "15px 15px",
-    fontSize: "14px",
-    lineHeight: "20px",
-    "&:hover": {
-      cursor: "pointer",
-      backgroundColor: "rgb(245, 245, 245)",
-    },
-  },
-  rowScoreBase: {
-    borderRadius: "25px",
-    padding: "3px",
-  },
-  rowNotes: {
-    borderbottom: "1px solid #e6ecf0",
-    padding: "15px 15px",
-  },
-  bottomButton: {
+   bottomButton: {
     minWidth: "150px",
   },
   actionButtonContainer: {
@@ -224,8 +171,10 @@ export const useStyles = makeStyles((theme) => ({
     paddingBottom: "10px",
   },
   rowCardStyleDisabled: {
-    background: "#FFFFFF",
       textDecoration: "line-through",
       color: "#9AA0A6",
+  },
+  cardStyleDisabled: {
+    background: "#F1F3F4"
   }
 }));

@@ -9,6 +9,8 @@ export const authScopes = [
   ,"https://www.googleapis.com/auth/documents"
 ]
 
+export const defaultSection = 'Customer Success'
+
 export const DEBUG = true;
 
 
