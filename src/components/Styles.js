@@ -189,9 +189,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   inputLabel: {
     background: "white",
-    // zIndex: 10,
-    // transform: "translate(-5px, -5px)",
-    // fontSize: "10pt",
+    zIndex: 10,
+    transform: "translate(-5px, -5px)",
+    fontSize: "10pt",
   },
   rowCardStyle: {
     paddingBottom: "10px",

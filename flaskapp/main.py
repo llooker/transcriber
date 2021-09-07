@@ -8,7 +8,8 @@ try:
 except ImportError:
   pass
 # SCRIPT_ID = 'AKfycbwFmbVXqB_uze9ewdQuwm6kkhqZ2zvksp1vICRTvrJKdt_gHFSpbo67ZfQWHLpoLQDcmA' # Original version
-SCRIPT_ID = 'AKfycbwaYP3gYW3GzKPNEMDF_QnrhBB_Ux6YS43yy0TUAYwaWow9EEx16bMoUKNFmb8J5uLEGQ' # Single user deployment
+# SCRIPT_ID = 'AKfycbwaYP3gYW3GzKPNEMDF_QnrhBB_Ux6YS43yy0TUAYwaWow9EEx16bMoUKNFmb8J5uLEGQ' # Single user deployment
+SCRIPT_ID = 'AKfycbyrzNIMqI8MMPIUk9iNCDhs78XQ7aNp28IbibY8wRxHOQ9Ec20' # Newest v (redeployed)
 SCRIPT_URL = f'https://script.google.com/a/macros/google.com/s/{SCRIPT_ID}/exec' # Webhook version
 app = Flask(__name__, static_folder="build", static_url_path="/")
 

@@ -8,7 +8,7 @@ export const urls = {
 };
 
 export const authScopes = [
-  ,"https://www.googleapis.com/auth/drive"
+  // ,"https://www.googleapis.com/auth/drive"
   // ,"https://www.googleapis.com/auth/documents"
 ]
 
